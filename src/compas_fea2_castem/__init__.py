@@ -178,29 +178,29 @@ from compas_fea2.job import (
 )
 
 # =========================================================================
-#                           OPENSEES CLASSES
+#                           CASTEM CLASSES
 # =========================================================================
 
 try:
-    # Opensees Models
-    # from .model import OpenseesModel
-    # from .model import OpenseesPart
+    # Castem Models
+    from .model import CastemModel
+    from .model import CastemDeformablePart
     from .model import CastemNode
 
     # Opensees Elements
-    # from .model.elements import (
+    from .model.elements import (
     #     OpenseesMassElement,
     #     OpenseesLinkElement,
-    #     OpenseesBeamElement,
+         CastemBeamElement,
     #     OpenseesTrussElement,
     #     OpenseesMembraneElement,
     #     OpenseesShellElement,
     #     _OpenseesElement3D,
     #     OpenseesTetrahedronElement,
-    # )
+    )
 
     # # Opensees Sections
-    # from .model.sections import (
+    from .model.sections import (
     #     OpenseesAngleSection,
     #     OpenseesBeamSection,
     #     OpenseesGenericBeamSection,
@@ -210,7 +210,7 @@ try:
     #     OpenseesISection,
     #     OpenseesMassSection,
     #     OpenseesPipeSection,
-    #     OpenseesRectangularSection,
+        CastemRectangularSection,
     #     OpenseesSpringSection,
     #     OpenseesStrutSection,
     #     OpenseesTieSection,
@@ -219,16 +219,16 @@ try:
     #     OpenseesMembraneSection,
     #     OpenseesShellSection,
     #     OpenseesSolidSection,
-    # )
+    )
 
     # # Opensees Materials
-    # from .model.materials.material import (
-    #     OpenseesElasticIsotropic,
+    from .model.materials.material import (
+         CastemElasticIsotropic,
     #     OpenseesElasticOrthotropic,
     #     OpenseesElasticPlastic,
     #     OpenseesStiff,
     #     OpenseesUserMaterial,
-    # )
+    )
     # from .model.materials.concrete import (
     #     OpenseesConcrete,
     #     OpenseesConcreteDamagedPlasticity,
@@ -263,59 +263,59 @@ try:
     #     OpenseesBeamEndPinRelease,
     # )
 
-    # # Opensees Boundary Conditions
-    # from .model.bcs import (
-    #     OpenseesFixedBC,
-    #     OpenseesFixedBCX,
-    #     OpenseesFixedBCY,
-    #     OpenseesFixedBCZ,
-    #     OpenseesClampBCXX,
-    #     OpenseesClampBCYY,
-    #     OpenseesClampBCZZ,
-    #     OpenseesPinnedBC,
-    #     OpenseesRollerBCX,
-    #     OpenseesRollerBCXY,
-    #     OpenseesRollerBCXZ,
-    #     OpenseesRollerBCY,
-    #     OpenseesRollerBCYZ,
-    #     OpenseesRollerBCZ,
-    # )
+    # Castem Boundary Conditions
+    from .model.bcs import (
+        CastemFixedBC,
+        CastemFixedBCX,
+        CastemFixedBCY,
+        CastemFixedBCZ,
+        CastemClampBCXX,
+        CastemClampBCYY,
+        CastemClampBCZZ,
+        CastemPinnedBC,
+        CastemRollerBCX,
+        CastemRollerBCXY,
+        CastemRollerBCXZ,
+        CastemRollerBCY,
+        CastemRollerBCYZ,
+        CastemRollerBCZ,
+    )
 
-    # # Opensees Problem
-    # from .problem import OpenseesProblem
+    # Castem Problem
+    from .problem import CastemProblem
 
-    # # Opensees Steps
-    # from .problem.steps import (
+    # Castem Steps
+    from .problem.steps import (
     #     OpenseesModalAnalysis,
     #     OpenseesComplexEigenValue,
-    #     OpenseesStaticStep,
+        CastemStaticStep,
     #     OpenseesLinearStaticPerturbation,
     #     OpenseesBucklingAnalysis,
     #     OpenseesDynamicStep,
     #     OpenseesQuasiStaticStep,
     #     OpenseesDirectCyclicStep,
-    # )
+    )
 
-    # # Opensees Loads
-    # from .problem.loads import (
-    #     OpenseesConcentratedLoad,
+    # Castem Loads
+    from .problem.loads import (
+        CastemConcentratedLoad,
     #     OpenseesPressureLoad,
     #     OpenseesTributaryLoad,
     #     OpenseesPrestressLoad,
     #     OpenseesGravityLoad,
     #     OpenseesHarmonicPointLoad,
     #     OpenseesHarmonicPressureLoad,
-    # )
+    )
 
     # # Opensees Displacements
     # from .problem.displacements import (
     #     OpenseesGeneralDisplacement,
     # )
 
-    # # Opensees Displacements
-    # from .problem.combinations import (
-    #     OpenseesLoadCombination,
-    # )
+    # Castem Displacements
+    from .problem.combinations import (
+        CastemLoadCombination,
+    )
 
     # # Opensees outputs
     # from .problem.outputs import (
@@ -338,13 +338,13 @@ try:
     def _register_backend():
         backend = compas_fea2.BACKENDS["compas_fea2_castem"]
 
-        # backend[Model] = OpenseesModel
-        # backend[DeformablePart] = OpenseesPart
+        backend[Model] = CastemModel
+        backend[DeformablePart] = CastemDeformablePart
         backend[Node] = CastemNode
 
         # backend[MassElement] = OpenseesMassElement
         # backend[LinkElement] = OpenseesLinkElement
-        # backend[BeamElement] = OpenseesBeamElement
+        backend[BeamElement] = CastemBeamElement
         # backend[TrussElement] = OpenseesTrussElement
         # backend[MembraneElement] = OpenseesMembraneElement
         # backend[ShellElement] = OpenseesShellElement
@@ -361,7 +361,7 @@ try:
         # backend[MassSection] = OpenseesMassSection
         # backend[MembraneSection] = OpenseesMembraneSection
         # backend[PipeSection] = OpenseesPipeSection
-        # backend[RectangularSection] = OpenseesRectangularSection
+        backend[RectangularSection] = CastemRectangularSection
         # backend[ShellSection] = OpenseesShellSection
         # backend[SolidSection] = OpenseesSolidSection
         # backend[SpringSection] = OpenseesSpringSection
@@ -370,7 +370,7 @@ try:
         # backend[TrapezoidalSection] = OpenseesTrapezoidalSection
         # backend[TrussSection] = OpenseesTrussSection
 
-        # backend[ElasticIsotropic] = OpenseesElasticIsotropic
+        backend[ElasticIsotropic] = CastemElasticIsotropic
         # backend[ElasticOrthotropic] = OpenseesElasticOrthotropic
         # backend[ElasticPlastic] = OpenseesElasticPlastic
         # backend[Stiff] = OpenseesStiff
@@ -393,26 +393,26 @@ try:
 
         # backend[BeamEndPinRelease] = OpenseesBeamEndPinRelease
 
-        # backend[FixedBC] = OpenseesFixedBC
-        # backend[FixedBCX] = OpenseesFixedBCX
-        # backend[FixedBCY] = OpenseesFixedBCY
-        # backend[FixedBCZ] = OpenseesFixedBCZ
-        # backend[ClampBCXX] = OpenseesClampBCXX
-        # backend[ClampBCYY] = OpenseesClampBCYY
-        # backend[ClampBCZZ] = OpenseesClampBCZZ
-        # backend[PinnedBC] = OpenseesPinnedBC
-        # backend[RollerBCX] = OpenseesRollerBCX
-        # backend[RollerBCXY] = OpenseesRollerBCXY
-        # backend[RollerBCXZ] = OpenseesRollerBCXZ
-        # backend[RollerBCY] = OpenseesRollerBCY
-        # backend[RollerBCYZ] = OpenseesRollerBCYZ
-        # backend[RollerBCZ] = OpenseesRollerBCZ
+        backend[FixedBC] = CastemFixedBC
+        backend[FixedBCX] = CastemFixedBCX
+        backend[FixedBCY] = CastemFixedBCY
+        backend[FixedBCZ] = CastemFixedBCZ
+        backend[ClampBCXX] = CastemClampBCXX
+        backend[ClampBCYY] = CastemClampBCYY
+        backend[ClampBCZZ] = CastemClampBCZZ
+        backend[PinnedBC] = CastemPinnedBC
+        backend[RollerBCX] = CastemRollerBCX
+        backend[RollerBCXY] = CastemRollerBCXY
+        backend[RollerBCXZ] = CastemRollerBCXZ
+        backend[RollerBCY] = CastemRollerBCY
+        backend[RollerBCYZ] = CastemRollerBCYZ
+        backend[RollerBCZ] = CastemRollerBCZ
 
-        # backend[Problem] = OpenseesProblem
+        backend[Problem] = CastemProblem
 
         # backend[ModalAnalysis] = OpenseesModalAnalysis
         # backend[ComplexEigenValue, StaticStep] = OpenseesComplexEigenValue
-        # backend[StaticStep] = OpenseesStaticStep
+        backend[StaticStep] = CastemStaticStep
         # backend[LinearStaticPerturbation] = OpenseesLinearStaticPerturbation
         # backend[BucklingAnalysis] = OpenseesBucklingAnalysis
         # backend[DynamicStep] = OpenseesDynamicStep
@@ -420,7 +420,7 @@ try:
         # backend[DirectCyclicStep] = OpenseesDirectCyclicStep
 
         # backend[GravityLoad] = OpenseesGravityLoad
-        # backend[ConcentratedLoad] = OpenseesConcentratedLoad
+        backend[ConcentratedLoad] = CastemConcentratedLoad
         # backend[PressureLoad] = OpenseesPressureLoad
         # backend[TributaryLoad] = OpenseesTributaryLoad
         # backend[PrestressLoad] = OpenseesPrestressLoad
@@ -429,7 +429,7 @@ try:
 
         # backend[GeneralDisplacement] = OpenseesGeneralDisplacement
 
-        # backend[LoadCombination] = OpenseesLoadCombination
+        backend[LoadCombination] = CastemLoadCombination
 
         # backend[DisplacementFieldOutput] = OpenseesDisplacementFieldOutput
         # backend[AccelerationFieldOutput] = OpenseesAccelerationFieldOutput
@@ -449,7 +449,7 @@ except ImportError:
     raise ErrorDuringImport()
 
 
-def init_fea2_casten(exe):
+def init_fea2_castem(exe):
     """Create a default environment file if it doesn't exist and loads its variables.
 
     Parameters
