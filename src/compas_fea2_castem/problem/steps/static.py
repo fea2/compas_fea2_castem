@@ -84,15 +84,21 @@ class CastemStaticStep(StaticStep):
         time=1,
         nlgeom=False,
         modify=False,
-        t_under_inc = 0.1,
+        t_under_inc=0.1,
         max_under_increments=10,
         **kwargs,
     ):
-        super(CastemStaticStep, self).__init__(max_increments, initial_inc_size, min_inc_size, time, nlgeom, modify, **kwargs)
+        super(CastemStaticStep, self).__init__(
+            max_increments,
+            initial_inc_size,
+            min_inc_size,
+            time,
+            nlgeom,
+            modify,
+            **kwargs,
+        )
         self.t_under_inc = t_under_inc
-        self.nlgeom=nlgeom
-        self.max_under_increments= max_under_increments
-
+        self.max_under_increments = max_under_increments
 
     def jobdata(self):
         return f"""***
@@ -132,7 +138,7 @@ TAB3.TEMPS_CALCULES = TCAL;
 TAB3.MAXSOUSPAS = {self.max_under_increments};
 TAB3.MAXITERATION = {self.max_increments};
 TAB3.PRECISION = {self.min_inc_size};
-TAB3.GRANDS_DEPLACEMENTS = {'VRAI' if self.nlgeom else 'FAUX'};
+TAB3.GRANDS_DEPLACEMENTS = {"VRAI" if self.nlgeom else "FAUX"};
 TAB3.CONVERGENCE_FORCEE= FAUX;
 
 
@@ -168,6 +174,14 @@ PASAPAS TAB3;
         if self._history_outputs:
             for houtput in self._history_outputs:
                 data_section.append(houtput.jobdata())
+        data_section.append(
+            """
+OPTI SORT '{}\{}';
+SORT 'EXCE' ALLNODE 'SEPA' 'ESPA';
+""".format(
+                self.problem.path, "allnode"
+            )
+        )
         return "\n".join(data_section)
 
 
@@ -210,7 +224,16 @@ class OpenseesStaticRiksStep(StaticRiksStep):
         name=None,
         **kwargs,
     ):
-        super().__init__(max_increments, initial_inc_size, min_inc_size, time, nlgeom, modify, name, **kwargs)
+        super().__init__(
+            max_increments,
+            initial_inc_size,
+            min_inc_size,
+            time,
+            nlgeom,
+            modify,
+            name,
+            **kwargs,
+        )
         self.ArcLength = ArcLength
 
     def jobdata(self):

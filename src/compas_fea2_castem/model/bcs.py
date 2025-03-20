@@ -22,16 +22,13 @@ dofs = ["x", "y", "z", "xx", "yy", "zz"]
 
 
 def _jobdata(bc, nodes):
-    castem_dofs= {"x": "UX", "y": "UY", "z": "UZ", "xx": "RX", "yy": "RY", "zz": "RZ"}
-    mdl_dofs=[]
+    castem_dofs = {"x": "UX", "y": "UY", "z": "UZ", "xx": "RX", "yy": "RY", "zz": "RZ"}
+    mdl_dofs = []
     for dof in dofs:
         if getattr(bc, dof):
             mdl_dofs.append(castem_dofs[dof])
 
-    return "\n".join(["CLTOT= CLTOT ET (BLOQ {0} N{1}) ;".format(
-                                                        " ".join([castem_dof for castem_dof in mdl_dofs])
-                                                       , node.input_key) for node in nodes]
-                                                       )
+    return "\n".join(["CLTOT= CLTOT ET (BLOQ {0} N{1}) ;".format(" ".join([castem_dof for castem_dof in mdl_dofs]), node.input_key) for node in nodes])
 
 
 class CastemGeneralBC(GeneralBC):

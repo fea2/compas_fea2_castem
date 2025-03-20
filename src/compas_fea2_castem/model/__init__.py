@@ -1,29 +1,55 @@
-#Castem Models
+# Castem Models
 from .nodes import CastemNode
-from .model import CastemModel
-from .parts import CastemDeformablePart
-from .bcs import (CastemClampBCXX, 
-                  CastemClampBCYY,
-                  CastemClampBCZZ,
-                  CastemFixedBC,
-                  CastemFixedBCX,
-                  CastemFixedBCY,
-                  CastemFixedBCZ,
-                  CastemGeneralBC,
-                  CastemPinnedBC,
-                  CastemRollerBCX,
-                  CastemRollerBCXY,
-                  CastemRollerBCXZ,
-                  CastemRollerBCY,
-                  CastemRollerBCYZ,
-                  CastemRollerBCZ
-                  )
+from .model import CastemModel  # noqa: F401
+from .parts import CastemPart
+from .bcs import (
+    CastemClampBCXX,
+    CastemClampBCYY,
+    CastemClampBCZZ,
+    CastemFixedBC,
+    CastemFixedBCX,
+    CastemFixedBCY,
+    CastemFixedBCZ,
+    CastemGeneralBC,
+    CastemPinnedBC,
+    CastemRollerBCX,
+    CastemRollerBCXY,
+    CastemRollerBCXZ,
+    CastemRollerBCY,
+    CastemRollerBCYZ,
+    CastemRollerBCZ,
+)
 
-#Castem Element
+# Castem Element
 from .elements import CastemBeamElement
 
-#Castem Materials
+# Castem Materials
 from .materials import CastemElasticIsotropic
 
-#Castem Section
+# Castem Section
 from .sections import CastemRectangularSection
+
+
+__all__ = [
+    "CastemNode",
+    "CastemModel",
+    "CastemPart",
+    "CastemClampBCXX",
+    "CastemClampBCYY",
+    "CastemClampBCZZ",
+    "CastemFixedBC",
+    "CastemFixedBCX",
+    "CastemFixedBCY",
+    "CastemFixedBCZ",
+    "CastemGeneralBC",
+    "CastemPinnedBC",
+    "CastemRollerBCX",
+    "CastemRollerBCXY",
+    "CastemRollerBCXZ",
+    "CastemRollerBCY",
+    "CastemRollerBCYZ",
+    "CastemRollerBCZ",
+    "CastemBeamElement",
+    "CastemElasticIsotropic",
+    "CastemRectangularSection",
+]

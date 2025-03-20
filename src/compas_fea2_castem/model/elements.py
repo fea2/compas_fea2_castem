@@ -12,6 +12,7 @@ from compas_fea2.model import TetrahedronElement
 from compas_fea2.model import TrussElement
 from compas_fea2.model import _Element3D
 
+
 def jobdata(element):
     """Generates the list of information for the generation for the input file of all the
     elements.
@@ -30,7 +31,8 @@ def jobdata(element):
     List with input file data of the element (str).
 
     """
-    return [element.input_key, ' N'.join(str(node.input_key) for node in element.nodes)]
+    return [element.input_key, " N".join(str(node.input_key) for node in element.nodes)]
+
 
 # ==============================================================================
 # 0D elements
@@ -42,25 +44,39 @@ class CastemMassElement(MassElement):
 
     def __init__(self, *, node, section, **kwargs):
         super(CastemMassElement, self).__init__(nodes=[node], section=section, **kwargs)
+
         raise NotImplementedError
 
 
-class OpenseesLinkElement(LinkElement):
-    """Check the documentation \n"""
+class CastemLinkElement(LinkElement):
+    """Check the documentation \n
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=RELA#Option%20ENSE%20:%20relation%20de%20mouvement%20d'ensemble15
+
+    The RELA operator returns a rigidity matrix corresponding to the linked movement. It will have to be integrated to
+    the TAB3.RIGIDITE matrix.
+    """
 
     __doc__ += LinkElement.__doc__
 
     def __init__(self, *, nodes, **kwargs):
-        super(OpenseesLinkElement, self).__init__(nodes=nodes, **kwargs)
+        super(CastemLinkElement, self).__init__(nodes=nodes, **kwargs)
 
     def jobdata(self):
-        return "".join(
-            (
+        return_l = []
+        return_l.append("LINKNODS = VIDE MAILLAGE;")
+        for i in range(len(self.nodes)):
+            return_l.append(f"LINKNODS = LINKNODS ET N{self.nodes[i].input_key};")
+        return_l.append("RIGILINK = RIGILINK ET (RELA 'ENSE' )")
+        return f""" 
+LINKNODS = VIDE MAILLAGE;
+REPE BOUC1 {len(self.nodes)};
+    LINKNODS = LINKNODS ET N{self.input_key};
+
+
                 f"element twoNodeLink {self.input_key} {self.nodes[0].key} {self.nodes[-1].key} "
                 f"-mat {self.section.material.key} {self.section.material.key} {self.section.material.key} "
                 f"-dir 1 2 3 4 5 6"
-            )
-        )
+"""
 
 
 # ==============================================================================
@@ -75,15 +91,15 @@ class CastemBeamElement(BeamElement):
     ---------------------
     type : str, optional
         Name of the implementation model.
-    # # iterpolation : int, optional
-    # #     Number of interpolation points, from 1 to 3, by default 1.
-    # # hybrid : bool, optional
-    # #     Use hybrid formulation, by default `False`. [WIP]
-    # # implementation : str, optional
-    # #     Name of the implementation model to be used, by default `None`. This can
-    # #     be used alternatively to the `type`, `interpolation` and `hybrid` parameters
-    # #     to directly define the model to be used. If both are specified, the
-    # #     `implementation` overwrites the others.
+    iterpolation : int, optional
+        Number of interpolation points, from 1 to 3, by default 1.
+    hybrid : bool, optional
+        Use hybrid formulation, by default `False`. [WIP]
+    implementation : str, optional
+        Name of the implementation model to be used, by default `None`. This can
+        be used alternatively to the `type`, `interpolation` and `hybrid` parameters
+        to directly define the model to be used. If both are specified, the
+        `implementation` overwrites the others.
 
     Note
     ----
@@ -101,9 +117,23 @@ class CastemBeamElement(BeamElement):
 
     """
 
-    def __init__(self, nodes, section, frame=[0.0, 0.0, -1.0], type='POUT', type_element='SEG2', implementation=None, **kwargs):
-
-        super(CastemBeamElement, self).__init__(nodes=nodes, section=section, frame=frame,  implementation=implementation or str(type), **kwargs)
+    def __init__(
+        self,
+        nodes,
+        section,
+        frame=[0.0, 0.0, -1.0],
+        type="POUT",
+        type_element="SEG2",
+        implementation=None,
+        **kwargs,
+    ):
+        super(CastemBeamElement, self).__init__(
+            nodes=nodes,
+            section=section,
+            frame=frame,
+            implementation=implementation or str(type),
+            **kwargs,
+        )
 
         self._type_element = type_element  # type element de maillage
         self._type = type
@@ -114,47 +144,10 @@ class CastemBeamElement(BeamElement):
         self._orientation = frame  # FIXME this is useless
 
     def jobdata(self):
-        if any(x in self.implementation for x in ['POUT', 'TIMO', 'BARRE']):
+        if any(x in self.implementation for x in ["POUT", "TIMO", "BARRE"]):
             return jobdata(self)
         else:
             raise NotImplementedError
-
-    def _elasticBeamColumn(self):
-        """Construct an elasticBeamColumn element object.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/gradientInelasticBeamColumn.html>`_
-        """
-        if self.part.ndm == 2:
-            return "element elasticBeamColumn {} {} {} {} {} {}".format(
-                self.input_key,
-                " ".join(str(node.input_key) for node in self.nodes),
-                self.section.A,
-                self.section.material.E,
-                self.section.Ixx,
-                self.input_key,
-            )
-        else:
-            return "element {} {} {} {} {} {} {} {} {} {}".format(
-                self._implementation,
-                self.input_key,
-                " ".join(str(node.input_key) for node in self.nodes),
-                self.section.A,
-                self.section.material.E,
-                self.section.material.G,
-                self.section.J,
-                self.section.Ixx,
-                self.section.Iyy,
-                self.input_key,
-            )
-
-    def _inelasticBeamColum(self):
-        raise NotImplementedError("Currently under development")
-        return (
-            "element  {} {} {} $numIntgrPts $endSecTag1 $intSecTag $endSecTag2 $lambda1 $lambda2 $lc $transfTag <-integration integrType> <-iter $maxIter $minTol $maxTol>".format(
-                self._implementation, self.input_key, " ".join(node.input_key for node in self.nodes)
-            )
-        )
 
 
 class OpenseesTrussElement(TrussElement):
@@ -244,7 +237,11 @@ class OpenseesShellElement(ShellElement):
         """
         self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
         self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ShellDKGT {} {} {}".format(self.input_key, " ".join(str(node.input_key) for node in self.nodes), self.section.input_key)
+        return "element ShellDKGT {} {} {}".format(
+            self.input_key,
+            " ".join(str(node.input_key) for node in self.nodes),
+            self.section.input_key,
+        )
 
     def _shelldkgq(self):
         """Construct a ShellDKGQ element object, which is a quadrilateral shell element based on the theory of generalized conforming element.
@@ -258,7 +255,11 @@ class OpenseesShellElement(ShellElement):
         """
         self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
         self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ShellDKGQ {} {} {}".format(self.input_key, " ".join(str(node.input_key) for node in self.nodes), self.section.input_key)
+        return "element ShellDKGQ {} {} {}".format(
+            self.input_key,
+            " ".join(str(node.input_key) for node in self.nodes),
+            self.section.input_key,
+        )
 
     def _shellmitc4(self):
         """Construct a ShellMITC4 element object, which uses a bilinear
@@ -267,7 +268,11 @@ class OpenseesShellElement(ShellElement):
         """
         self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
         self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ShellMITC4 {} {} {}".format(self.input_key, " ".join(str(node.input_key) for node in self.nodes), self.section.input_key)
+        return "element ShellMITC4 {} {} {}".format(
+            self.input_key,
+            " ".join(str(node.input_key) for node in self.nodes),
+            self.section.input_key,
+        )
 
     def _asdshellq4(self):
         """Construct an ASDShellQ4 element object.
@@ -277,7 +282,11 @@ class OpenseesShellElement(ShellElement):
         """
         self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
         self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ASDShellQ4 {} {}  {}".format(self.input_key, " ".join(str(node.input_key) for node in self.nodes), self.section.input_key)
+        return "element ASDShellQ4 {} {}  {}".format(
+            self.input_key,
+            " ".join(str(node.input_key) for node in self.nodes),
+            self.section.input_key,
+        )
 
     def _fournodequad(self):
         """Construct a FourNodeQuad element object which uses a bilinear isoparametric formulation.
@@ -450,7 +459,7 @@ class OpenseesTetrahedronElement(TetrahedronElement):
             raise ValueError("{} is not a valid implementation.".format(self._implementation))
 
     def _FourNode(self):
-        return f"element FourNodeTetrahedron {self.input_key} {' '.join(str(n.input_key) for n in self.nodes)} {self.section.material.input_key+1000}"
+        return f"element FourNodeTetrahedron {self.input_key} {' '.join(str(n.input_key) for n in self.nodes)} {self.section.material.input_key + 1000}"
 
     def _TenNode(self):
         raise NotImplementedError

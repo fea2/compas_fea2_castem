@@ -22,4 +22,4 @@ class CastemLoadCombination(LoadCombination):
         # loads = "\n".join([load.jobdata(node) for node, load in self.node_load])
 
         # return f"pattern Plain {index} {index} -fact {factor} {{\n{loads}\n}}"
-        return f"\n".join([load.jobdata(node) for node, load in self.node_load])
+        return "\n".join([load.jobdata(node) for node, load in self.node_load])

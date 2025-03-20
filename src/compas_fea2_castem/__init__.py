@@ -27,84 +27,85 @@ import compas_fea2
 
 # Models
 from compas_fea2.model import Model
-from compas_fea2.model import DeformablePart
+from compas_fea2.model import Part
 from compas_fea2.model import Node
 
 # Elements
 from compas_fea2.model.elements import (
-    MassElement,
-    LinkElement,
+    # MassElement,
+    # LinkElement,
     BeamElement,
-    TrussElement,
-    MembraneElement,
-    ShellElement,
-    _Element3D,
-    TetrahedronElement,
+    # TrussElement,
+    # MembraneElement,
+    # ShellElement,
+    # _Element3D,
+    # TetrahedronElement,
 )
 
 # Sections
 from compas_fea2.model.sections import (
-    AngleSection,
-    BeamSection,
-    GenericBeamSection,
-    BoxSection,
-    CircularSection,
-    HexSection,
-    ISection,
-    MassSection,
-    PipeSection,
+    # AngleSection,
+    # BeamSection,
+    # GenericBeamSection,
+    # BoxSection,
+    # CircularSection,
+    # HexSection,
+    # ISection,
+    # MassSection,
+    # PipeSection,
     RectangularSection,
-    SpringSection,
-    StrutSection,
-    TieSection,
-    TrapezoidalSection,
-    TrussSection,
-    MembraneSection,
-    ShellSection,
-    SolidSection,
+    # SpringSection,
+    # StrutSection,
+    # TieSection,
+    # TrapezoidalSection,
+    # TrussSection,
+    # MembraneSection,
+    # ShellSection,
+    # SolidSection,
 )
 
 # Materials
 from compas_fea2.model.materials.material import (
     ElasticIsotropic,
-    ElasticOrthotropic,
-    ElasticPlastic,
-    Stiff,
-    UserMaterial,
+    # ElasticOrthotropic,
+    # ElasticPlastic,
+    # Stiff,
+    # UserMaterial,
 )
-from compas_fea2.model.materials.concrete import (
-    Concrete,
-    ConcreteDamagedPlasticity,
-    ConcreteSmearedCrack,
-)
-from compas_fea2.model.materials.steel import (
-    Steel,
-)
+
+# from compas_fea2.model.materials.concrete import (
+#     Concrete,
+#     ConcreteDamagedPlasticity,
+#     ConcreteSmearedCrack,
+# )
+# from compas_fea2.model.materials.steel import (
+#     Steel,
+# )
 
 # Groups
-from compas_fea2.model.groups import (
-    NodesGroup,
-    ElementsGroup,
-    FacesGroup,
-)
+# from compas_fea2.model.groups import (
+#     NodesGroup,
+#     ElementsGroup,
+#     FacesGroup,
+# )
 
 # Constraints
-from compas_fea2.model.constraints import (
-    TieConstraint,
-)
+# from compas_fea2.model.constraints import (
+#     TieConstraint,
+# )
 
 # Connectors
-from compas_fea2.model.connectors import (
-    RigidLinkConnector,
-    SpringConnector,
-    ZeroLengthSpringConnector,
-    ZeroLengthContactConnector,
-)
+# from compas_fea2.model.connectors import (
+#     RigidLinkConnector,
+#     SpringConnector,
+#     ZeroLengthSpringConnector,
+#     ZeroLengthContactConnector,
+# )
 
 # Releases
-from compas_fea2.model.releases import (
-    BeamEndPinRelease,
-)
+# from compas_fea2.model.releases import (
+#     BeamEndPinRelease,
+# )
 
 # Boundary Conditions
 from compas_fea2.model.bcs import (
@@ -129,31 +130,31 @@ from compas_fea2.problem import Problem
 
 # Steps
 from compas_fea2.problem.steps import (
-    ModalAnalysis,
-    ComplexEigenValue,
+    # ModalAnalysis,
+    # ComplexEigenValue,
     StaticStep,
-    LinearStaticPerturbation,
-    BucklingAnalysis,
-    DynamicStep,
-    QuasiStaticStep,
-    DirectCyclicStep,
+    # LinearStaticPerturbation,
+    # BucklingAnalysis,
+    # DynamicStep,
+    # QuasiStaticStep,
+    # DirectCyclicStep,
 )
 
 # Loads
 from compas_fea2.problem.loads import (
     ConcentratedLoad,
-    PressureLoad,
-    TributaryLoad,
-    PrestressLoad,
-    GravityLoad,
-    HarmonicPointLoad,
-    HarmonicPressureLoad,
+    # PressureLoad,
+    # TributaryLoad,
+    # PrestressLoad,
+    # GravityLoad,
+    # HarmonicPointLoad,
+    # HarmonicPressureLoad,
 )
 
 # Displacements
-from compas_fea2.problem.displacements import (
-    GeneralDisplacement,
-)
+# from compas_fea2.problem.displacements import (
+#     GeneralDisplacement,
+# )
 
 # Displacements
 from compas_fea2.problem.combinations import (
@@ -161,14 +162,16 @@ from compas_fea2.problem.combinations import (
 )
 
 # Outputs
-from compas_fea2.problem.outputs import (
-    DisplacementFieldOutput,
-    AccelerationFieldOutput,
-    VelocityFieldOutput,
-    ReactionFieldOutput,
-    Stress2DFieldOutput,
-    SectionForcesFieldOutput,
-    HistoryOutput,
+
+# FieldResult
+from compas_fea2.results.fields import (
+    DisplacementFieldResults,
+    # AccelerationFieldOutput,
+    # VelocityFieldOutput,
+    # ReactionFieldOutput,
+    # Stress2DFieldOutput,
+    # SectionForcesFieldOutput,
+    # HistoryOutput,
 )
 
 # Input File
@@ -184,51 +187,52 @@ from compas_fea2.job import (
 try:
     # Castem Models
     from .model import CastemModel
-    from .model import CastemDeformablePart
+    from .model import CastemPart
     from .model import CastemNode
 
-    # Opensees Elements
+    # Castem Elements
     from .model.elements import (
-    #     OpenseesMassElement,
-    #     OpenseesLinkElement,
-         CastemBeamElement,
-    #     OpenseesTrussElement,
-    #     OpenseesMembraneElement,
-    #     OpenseesShellElement,
-    #     _OpenseesElement3D,
-    #     OpenseesTetrahedronElement,
+        #     OpenseesMassElement,
+        #     OpenseesLinkElement,
+        CastemBeamElement,
+        #     OpenseesTrussElement,
+        #     OpenseesMembraneElement,
+        #     OpenseesShellElement,
+        #     _OpenseesElement3D,
+        #     OpenseesTetrahedronElement,
     )
 
-    # # Opensees Sections
+    # # Castem Sections
     from .model.sections import (
-    #     OpenseesAngleSection,
-    #     OpenseesBeamSection,
-    #     OpenseesGenericBeamSection,
-    #     OpenseesBoxSection,
-    #     OpenseesCircularSection,
-    #     OpenseesHexSection,
-    #     OpenseesISection,
-    #     OpenseesMassSection,
-    #     OpenseesPipeSection,
+        #     OpenseesAngleSection,
+        #     OpenseesBeamSection,
+        #     OpenseesGenericBeamSection,
+        #     OpenseesBoxSection,
+        #     OpenseesCircularSection,
+        #     OpenseesHexSection,
+        #     OpenseesISection,
+        #     OpenseesMassSection,
+        #     OpenseesPipeSection,
         CastemRectangularSection,
-    #     OpenseesSpringSection,
-    #     OpenseesStrutSection,
-    #     OpenseesTieSection,
-    #     OpenseesTrapezoidalSection,
-    #     OpenseesTrussSection,
-    #     OpenseesMembraneSection,
-    #     OpenseesShellSection,
-    #     OpenseesSolidSection,
+        #     OpenseesSpringSection,
+        #     OpenseesStrutSection,
+        #     OpenseesTieSection,
+        #     OpenseesTrapezoidalSection,
+        #     OpenseesTrussSection,
+        #     OpenseesMembraneSection,
+        #     OpenseesShellSection,
+        #     OpenseesSolidSection,
     )
 
     # # Opensees Materials
     from .model.materials.material import (
-         CastemElasticIsotropic,
-    #     OpenseesElasticOrthotropic,
-    #     OpenseesElasticPlastic,
-    #     OpenseesStiff,
-    #     OpenseesUserMaterial,
+        CastemElasticIsotropic,
+        #     OpenseesElasticOrthotropic,
+        #     OpenseesElasticPlastic,
+        #     OpenseesStiff,
+        #     OpenseesUserMaterial,
     )
+
     # from .model.materials.concrete import (
     #     OpenseesConcrete,
     #     OpenseesConcreteDamagedPlasticity,
@@ -286,25 +290,25 @@ try:
 
     # Castem Steps
     from .problem.steps import (
-    #     OpenseesModalAnalysis,
-    #     OpenseesComplexEigenValue,
+        #     OpenseesModalAnalysis,
+        #     OpenseesComplexEigenValue,
         CastemStaticStep,
-    #     OpenseesLinearStaticPerturbation,
-    #     OpenseesBucklingAnalysis,
-    #     OpenseesDynamicStep,
-    #     OpenseesQuasiStaticStep,
-    #     OpenseesDirectCyclicStep,
+        #     OpenseesLinearStaticPerturbation,
+        #     OpenseesBucklingAnalysis,
+        #     OpenseesDynamicStep,
+        #     OpenseesQuasiStaticStep,
+        #     OpenseesDirectCyclicStep,
     )
 
     # Castem Loads
     from .problem.loads import (
         CastemConcentratedLoad,
-    #     OpenseesPressureLoad,
-    #     OpenseesTributaryLoad,
-    #     OpenseesPrestressLoad,
-    #     OpenseesGravityLoad,
-    #     OpenseesHarmonicPointLoad,
-    #     OpenseesHarmonicPressureLoad,
+        #     OpenseesPressureLoad,
+        #     OpenseesTributaryLoad,
+        #     OpenseesPrestressLoad,
+        #     OpenseesGravityLoad,
+        #     OpenseesHarmonicPointLoad,
+        #     OpenseesHarmonicPressureLoad,
     )
 
     # # Opensees Displacements
@@ -317,29 +321,29 @@ try:
         CastemLoadCombination,
     )
 
-    # # Opensees outputs
-    # from .problem.outputs import (
-    #     OpenseesDisplacementFieldOutput,
-    #     OpenseesAccelerationFieldOutput,
-    #     OpenseesVelocityFieldOutput,
-    #     OpenseesReactionFieldOutput,
-    #     OpenseesStress2DFieldOutput,
-    #     OpenseesSectionForcesFieldOutput,
-    #     OpenseesHistoryOutput,
-    # )
+    # Castem field results
+    from .results.fields import (
+        CastemDisplacementFieldResults,
+        #     OpenseesAccelerationFieldOutput,
+        #     OpenseesVelocityFieldOutput,
+        #     OpenseesReactionFieldOutput,
+        #     OpenseesStress2DFieldOutput,
+        #     OpenseesSectionForcesFieldOutput,
+        #     OpenseesHistoryOutput,
+    )
 
     # # Opensees Input File
-    # from .model import (
-    #     OpenseesInputFile,
-    #     OpenseesParametersFile,
-    # )
+    from .job import (
+        CastemInputFile,
+        CastemParametersFile,
+    )
 
     # build the plugin registry
     def _register_backend():
         backend = compas_fea2.BACKENDS["compas_fea2_castem"]
 
         backend[Model] = CastemModel
-        backend[DeformablePart] = CastemDeformablePart
+        backend[Part] = CastemPart
         backend[Node] = CastemNode
 
         # backend[MassElement] = OpenseesMassElement
@@ -431,17 +435,17 @@ try:
 
         backend[LoadCombination] = CastemLoadCombination
 
-        # backend[DisplacementFieldOutput] = OpenseesDisplacementFieldOutput
+        # backend[HistoryOutput] = OpenseesHistoryOutput
+
+        backend[DisplacementFieldResults] = CastemDisplacementFieldResults
         # backend[AccelerationFieldOutput] = OpenseesAccelerationFieldOutput
         # backend[VelocityFieldOutput] = OpenseesVelocityFieldOutput
         # backend[ReactionFieldOutput] = OpenseesReactionFieldOutput
         # backend[Stress2DFieldOutput] = OpenseesStress2DFieldOutput
         # backend[SectionForcesFieldOutput] = OpenseesSectionForcesFieldOutput
 
-        # backend[HistoryOutput] = OpenseesHistoryOutput
-
-        # backend[InputFile] = OpenseesInputFile
-        # backend[ParametersFile] = OpenseesParametersFile
+        backend[InputFile] = CastemInputFile
+        backend[ParametersFile] = CastemParametersFile
 
         print("Castem implementations registered...")
 
@@ -477,10 +481,6 @@ def init_fea2_castem(exe):
     load_dotenv(env_path)
 
 
-
-
-
-
 __author__ = ["Ines Champagne"]
 __copyright__ = "Ines Champagne"
 __license__ = "MIT License"
@@ -497,5 +497,3 @@ TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 
 
 __all__ = ["HOME", "DATA", "DOCS", "TEMP"]
-
-

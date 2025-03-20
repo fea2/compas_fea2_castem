@@ -22,17 +22,26 @@ class CastemConcentratedLoad(ConcentratedLoad):
         super(CastemConcentratedLoad, self).__init__(x=x, y=y, z=z, xx=xx, yy=yy, zz=zz, axes=axes, **kwargs)
 
     def jobdata(self, node):
-        castem_load= {"x": "FX", "y": "FY", "z": "FZ", "xx": "MX", "yy": "MY", "zz": "MZ"}
-        load_dofs=[]
+        castem_load = {
+            "x": "FX",
+            "y": "FY",
+            "z": "FZ",
+            "xx": "MX",
+            "yy": "MY",
+            "zz": "MZ",
+        }
+        load_dofs = []
         for dof in dofs:
             if self.components[dof]:
-                load_dofs.append(castem_load[dof]+' '+str(self.components[dof]))
-        forc="FORC {0} N{1}".format(" ".join([load for load in load_dofs]), node.input_key )
+                load_dofs.append(castem_load[dof] + " " + str(self.components[dof]))
+        forc = "FORC {0} N{1}".format(" ".join([load for load in load_dofs]), node.input_key)
         return """***
 CHCHAR= {} ;
 EVCHAR = CHAR 'MECA' CHCHAR EVOLC;
 CHARTOT = CHARTOT ET EVCHAR;
-""".format(forc)
+""".format(
+            forc
+        )
 
 
 class OpenseesPressureLoad(PressureLoad):
