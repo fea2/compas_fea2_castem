@@ -24,7 +24,6 @@ def jobdata(obj):
 ***------------------------------------------------------------------
 *** - Nodes
 ***   -----
-ALLNODE = VIDE 'TABU' (MOTS 'TAG' 'NOEU') 'LISTENTI'*2;
 {}
 
 ***node_data
@@ -47,9 +46,6 @@ def _generate_elements_section(obj):
     # this check is needed for rigid parts ->ugly, change!
     grouped_elements = obj._group_elements()
     if not isinstance(obj, RigidPart):
-        part_data.append("MODTOT = VIDE 'MMODEL';")
-        part_data.append("MATTOT = VIDE 'MCHAML';")
-
         for implementation, element_types in grouped_elements.items():
             part_data.append("\n***   >Elements de type {}".format(implementation))
             for element_type, sections in element_types.items():
@@ -61,6 +57,13 @@ def _generate_elements_section(obj):
                             "\nE{0} = MANU {1} N{2} ;".format(element.jobdata()[0], element_type, element.jobdata()[1])
                         )  # la gestion des N devant les num de noeud n'est pas propre
                         part_data.append("MAIL{0}{1} = MAIL{0}{1} ET E{2} ;".format(obj.input_key, section.input_key, element.jobdata()[0]))
+                        part_data.append(
+                            f"""
+ID = DIME TABELE.KEY;
+TABELE.KEY.ID = {element.jobdata()[0]};
+TABELE.ELE.ID = E{element.jobdata()[0]};
+"""
+                        )
                     # Write material and section per group of elements
                     part_data.append("\n***       >Creation du materiau associe au groupe d elements")
                     part_data.append(

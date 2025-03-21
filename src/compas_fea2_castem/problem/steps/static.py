@@ -131,7 +131,7 @@ CHARTOT = VIDE 'CHARGEME';
 TAB3 = TABLE ;
 TAB3.MODELE = MODTOT;
 TAB3.CARACTERISTIQUES = MATTOT;
-TAB3.BLOCAGES_MECANIQUES = CLTOT;
+TAB3.BLOCAGES_MECANIQUES = CLTOT ET CONTOT;
 TAB3.CHARGEMENT = CHARTOT;
 TAB3.TEMPS_SAUVES = TSAUV;
 TAB3.TEMPS_CALCULES = TCAL;
@@ -174,14 +174,7 @@ PASAPAS TAB3;
         if self._history_outputs:
             for houtput in self._history_outputs:
                 data_section.append(houtput.jobdata())
-        data_section.append(
-            """
-OPTI SORT '{}\{}';
-SORT 'EXCE' ALLNODE 'SEPA' 'ESPA';
-""".format(
-                self.problem.path, "allnode"
-            )
-        )
+
         return "\n".join(data_section)
 
 

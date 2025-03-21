@@ -26,6 +26,20 @@ OPTI DIME 3;
 *** Parts & Material & Section
 ***==================================================================
 ***
+
+*** Initialization of "stocking" object used for the analysis
+
+MODTOT = VIDE 'MMODEL';
+MATTOT = VIDE 'MCHAML';
+
+TABPOINTS = TABLE ;
+TABPOINTS.KEY = TABLE;
+TABPOINTS.POINT = TABLE;
+
+TABELE = TABLE ;
+TABELE.KEY = TABLE;
+TABELE.ELE = TABLE;
+
 {}
 ***
 ***
@@ -41,12 +55,13 @@ CLTOT = VIDE 'RIGIDITE'/'RIGIDITE';
 *** Connectors
 ***------------------------------------------------------------------
 ***
-
+CONTOT = VIDE 'RIGIDITE'/'RIGIDITE';
+{}
 ***
 ***""".format(
             "\n".join([part.jobdata() for part in sorted(self.parts, key=lambda x: x.key)]),
             # "\n".join([material.jobdata() for material in sorted(self.materials, key=lambda x: x.key)]),
             # "\n".join([section.jobdata() for section in sorted(self.sections, key=lambda x: x.key) if not isinstance(section, (SolidSection, TrussSection))]),
             "\n".join([bc.jobdata(nodes) for bc, nodes in self.bcs.items()]),
-            #            "\n".join([connector.jobdata() for connector in sorted(self.connectors, key=lambda x: x.key)]),
+            "\n".join([connector.jobdata() for connector in sorted(self.connectors, key=lambda x: x.key)]),
         )

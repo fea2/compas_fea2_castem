@@ -24,30 +24,41 @@ def read_results_file(connection, field_output):
     step = field_output.step
     field_name = field_output.field_name
     problem_path = field_output.problem.path
+    # Cast3m do not automatically store the tag of the node.
+    # The dictionnary allnode gives the FEA2 tag corresponding to
+    # the CASTEM node
+    allnodes = {}
+    with open(os.path.join(problem_path, "allnode.csv"), "r") as f:
+        lines = f.readlines()
+        for i in range(1, len(lines)):
+            columns = lines[i].split()
+            allnodes[columns[1]] = int(columns[0])  # allnode[noeu]=tag
+
+    model = field_output.model
+    step = field_output.step
+    field_name = field_output.field_name
+    problem_path = field_output.problem.path
 
     results = []
-    with open(os.path.join(problem_path, f"{field_name}.csv"), "r") as f:
-        lines = f.readlines()[1:]
-        # remove the first line of names of columns
+    with open(os.path.join(problem_path, f"{field_name}.inp"), "r") as f:
+        lines = f.readlines()
 
+        # all the data are stored in the doc
+        full_data = []
         for line in lines:
-            columns = line.split()
+            line_split = line.split()
+            full_data.append(line_split)
 
-            input_key = int(columns[0])  # Convert the first column to int
-            member = getattr(model, field_output.results_func)(input_key)[0]
-
-            values = list(map(lambda x: round(float(x), 6), columns[1:]))
-
-            # # the .inp file gives informations about the points composing the field
-            # # then about the results of the field. Only the results are extracted.
-            # nb_point = int(full_data[0][0])
-            # nb_comp = int(full_data[nb_point + 1][0])
-            # results_data = full_data[nb_point + 1 + nb_comp + 1 :]
-            # for i in range(nb_point):
-            #     noeudi = results_data[i][0]
-            #     input_keyi = allnodes.get(noeudi)
-            #     member = getattr(model, field_output.results_func)(input_keyi)[0]
-            #     values = results_data[i][1:]
+        # the .inp file gives informations about the points composing the field
+        # then about the results of the field. Only the results are extracted.
+        nb_point = int(full_data[0][0])
+        nb_comp = int(full_data[nb_point + 1][0])
+        results_data = full_data[nb_point + 1 + nb_comp + 1 :]
+        for i in range(nb_point):
+            noeudi = results_data[i][0]
+            input_keyi = allnodes.get(noeudi)
+            member = getattr(model, field_output.results_func)(input_keyi)[0]
+            values = results_data[i][1:]
 
             if not values:
                 continue

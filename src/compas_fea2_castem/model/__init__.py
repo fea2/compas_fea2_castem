@@ -29,6 +29,9 @@ from .materials import CastemElasticIsotropic
 # Castem Section
 from .sections import CastemRectangularSection
 
+# Castem connectors
+from .connectors import CastemRigidLinkConnector
+
 
 __all__ = [
     "CastemNode",
@@ -52,4 +55,5 @@ __all__ = [
     "CastemBeamElement",
     "CastemElasticIsotropic",
     "CastemRectangularSection",
+    "CastemRigidLinkConnector",
 ]

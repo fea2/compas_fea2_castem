@@ -95,12 +95,12 @@ from compas_fea2.model.materials.material import (
 # )
 
 # Connectors
-# from compas_fea2.model.connectors import (
-#     RigidLinkConnector,
-#     SpringConnector,
-#     ZeroLengthSpringConnector,
-#     ZeroLengthContactConnector,
-# )
+from compas_fea2.model.connectors import (
+    RigidLinkConnector,
+    #     SpringConnector,
+    #     ZeroLengthSpringConnector,
+    #     ZeroLengthContactConnector,
+)
 
 # Releases
 # from compas_fea2.model.releases import (
@@ -168,9 +168,9 @@ from compas_fea2.results.fields import (
     DisplacementFieldResults,
     # AccelerationFieldOutput,
     # VelocityFieldOutput,
-    # ReactionFieldOutput,
+    ReactionFieldResults,
     # Stress2DFieldOutput,
-    # SectionForcesFieldOutput,
+    SectionForcesFieldResults,
     # HistoryOutput,
 )
 
@@ -254,13 +254,13 @@ try:
     #     OpenseesTieConstraint,
     # )
 
-    # # Opensees Connectors
-    # from .model.connectors import (
-    #     OpenseesRigidLinkConnector,
-    #     OpenseesSpringConnector,
-    #     OpenseesZeroLengthSpringConnector,
-    #     OpenseesZeroLengthContactConnector,
-    # )
+    # Opensees Connectors
+    from .model.connectors import (
+        CastemRigidLinkConnector,
+        #     OpenseesSpringConnector,
+        #     OpenseesZeroLengthSpringConnector,
+        #     OpenseesZeroLengthContactConnector,
+    )
 
     # # Opensees release
     # from .model.releases import (
@@ -326,9 +326,9 @@ try:
         CastemDisplacementFieldResults,
         #     OpenseesAccelerationFieldOutput,
         #     OpenseesVelocityFieldOutput,
-        #     OpenseesReactionFieldOutput,
+        CastemReactionFieldResults,
         #     OpenseesStress2DFieldOutput,
-        #     OpenseesSectionForcesFieldOutput,
+        CastemSectionForcesFieldResults,
         #     OpenseesHistoryOutput,
     )
 
@@ -390,7 +390,7 @@ try:
 
         # backend[TieConstraint] = OpenseesTieConstraint
 
-        # backend[RigidLinkConnector] = OpenseesRigidLinkConnector
+        backend[RigidLinkConnector] = CastemRigidLinkConnector
         # backend[SpringConnector] = OpenseesSpringConnector
         # backend[ZeroLengthSpringConnector] = OpenseesZeroLengthSpringConnector
         # backend[ZeroLengthContactConnector] = OpenseesZeroLengthContactConnector
@@ -440,9 +440,9 @@ try:
         backend[DisplacementFieldResults] = CastemDisplacementFieldResults
         # backend[AccelerationFieldOutput] = OpenseesAccelerationFieldOutput
         # backend[VelocityFieldOutput] = OpenseesVelocityFieldOutput
-        # backend[ReactionFieldOutput] = OpenseesReactionFieldOutput
+        backend[ReactionFieldResults] = CastemReactionFieldResults
         # backend[Stress2DFieldOutput] = OpenseesStress2DFieldOutput
-        # backend[SectionForcesFieldOutput] = OpenseesSectionForcesFieldOutput
+        backend[SectionForcesFieldResults] = CastemSectionForcesFieldResults
 
         backend[InputFile] = CastemInputFile
         backend[ParametersFile] = CastemParametersFile

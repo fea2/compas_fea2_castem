@@ -14,12 +14,13 @@ class CastemNode(Node):
         # because it depends on the units
         x, y, z = self.xyz
         coordinates = "{0}{1}{2}{4:>15.8f}{3}{5:>15.8f}{3}{6:>15.8f}{7}".format("N", self.input_key, " = ", " ", x, y, z, ";")
-        allnode_data = f"""
-ALLNODE.NOEU = ALLNODE.NOEU ET (LECT (NOEU N{self.input_key}));
-ALLNODE.TAG = ALLNODE.TAG ET (LECT {self.input_key});
+        tabpoints_data = f"""
+ID = DIME TABPOINTS.KEY;
+TABPOINTS.KEY.ID = {self.input_key};
+TABPOINTS.POINT.ID = N{self.input_key};
 """
         # if any(self.mass):
         #     mass = " -mass " + " ".join(["{:>15.8f}".format(m) for m in self.mass])
         # else:
         #     mass = ""
-        return coordinates + allnode_data  # + mass
+        return coordinates + tabpoints_data  # + mass
