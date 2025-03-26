@@ -13,11 +13,11 @@ class CastemNode(Node):
         # FIXME: the approximation on the floating point is not correct
         # because it depends on the units
         x, y, z = self.xyz
-        coordinates = "{0}{1}{2}{4:>15.8f}{3}{5:>15.8f}{3}{6:>15.8f}{7}".format("N", self.input_key, " = ", " ", x, y, z, ";")
+        coordinates = "{0}{1}{2}{4:>15.8f}{3}{5:>15.8f}{3}{6:>15.8f}{7}".format("N", self.key, " = ", " ", x, y, z, ";")
         tabpoints_data = f"""
 ID = DIME TABPOINTS.KEY;
-TABPOINTS.KEY.ID = {self.input_key};
-TABPOINTS.POINT.ID = N{self.input_key};
+TABPOINTS.KEY.ID = {self.key};
+TABPOINTS.POINT.ID = N{self.key};
 """
         # if any(self.mass):
         #     mass = " -mass " + " ".join(["{:>15.8f}".format(m) for m in self.mass])

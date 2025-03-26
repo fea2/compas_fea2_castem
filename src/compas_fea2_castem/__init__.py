@@ -37,9 +37,9 @@ from compas_fea2.model.elements import (
     BeamElement,
     # TrussElement,
     # MembraneElement,
-    # ShellElement,
-    # _Element3D,
-    # TetrahedronElement,
+    ShellElement,
+    _Element3D,
+    TetrahedronElement,
 )
 
 # Sections
@@ -60,8 +60,8 @@ from compas_fea2.model.sections import (
     # TrapezoidalSection,
     # TrussSection,
     # MembraneSection,
-    # ShellSection,
-    # SolidSection,
+    ShellSection,
+    SolidSection,
 )
 
 # Materials
@@ -197,9 +197,9 @@ try:
         CastemBeamElement,
         #     OpenseesTrussElement,
         #     OpenseesMembraneElement,
-        #     OpenseesShellElement,
-        #     _OpenseesElement3D,
-        #     OpenseesTetrahedronElement,
+        CastemShellElement,
+        _CastemElement3D,
+        CastemTetrahedronElement,
     )
 
     # # Castem Sections
@@ -220,8 +220,8 @@ try:
         #     OpenseesTrapezoidalSection,
         #     OpenseesTrussSection,
         #     OpenseesMembraneSection,
-        #     OpenseesShellSection,
-        #     OpenseesSolidSection,
+        CastemShellSection,
+        CastemSolidSection
     )
 
     # # Opensees Materials
@@ -351,9 +351,9 @@ try:
         backend[BeamElement] = CastemBeamElement
         # backend[TrussElement] = OpenseesTrussElement
         # backend[MembraneElement] = OpenseesMembraneElement
-        # backend[ShellElement] = OpenseesShellElement
-        # backend[_Element3D] = _OpenseesElement3D
-        # backend[TetrahedronElement] = OpenseesTetrahedronElement
+        backend[ShellElement] = CastemShellElement
+        backend[_Element3D] = _CastemElement3D
+        backend[TetrahedronElement] = CastemTetrahedronElement
 
         # backend[AngleSection] = OpenseesAngleSection
         # backend[BeamSection] = OpenseesBeamSection
@@ -366,8 +366,8 @@ try:
         # backend[MembraneSection] = OpenseesMembraneSection
         # backend[PipeSection] = OpenseesPipeSection
         backend[RectangularSection] = CastemRectangularSection
-        # backend[ShellSection] = OpenseesShellSection
-        # backend[SolidSection] = OpenseesSolidSection
+        backend[ShellSection] = CastemShellSection
+        backend[SolidSection] = CastemSolidSection
         # backend[SpringSection] = OpenseesSpringSection
         # backend[StrutSection] = OpenseesStrutSection
         # backend[TieSection] = OpenseesTieSection

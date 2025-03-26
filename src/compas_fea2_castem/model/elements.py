@@ -31,7 +31,7 @@ def jobdata(element):
     List with input file data of the element (str).
 
     """
-    return [element.input_key, " N".join(str(node.input_key) for node in element.nodes)]
+    return [element.key, " N".join(str(node.key) for node in element.nodes)]
 
 
 # ==============================================================================
@@ -65,15 +65,15 @@ class CastemLinkElement(LinkElement):
         return_l = []
         return_l.append("LINKNODS = VIDE MAILLAGE;")
         for i in range(len(self.nodes)):
-            return_l.append(f"LINKNODS = LINKNODS ET N{self.nodes[i].input_key};")
+            return_l.append(f"LINKNODS = LINKNODS ET N{self.nodes[i].key};")
         return_l.append("RIGILINK = RIGILINK ET (RELA 'ENSE' )")
         return f""" 
 LINKNODS = VIDE MAILLAGE;
 REPE BOUC1 {len(self.nodes)};
-    LINKNODS = LINKNODS ET N{self.input_key};
+    LINKNODS = LINKNODS ET N{self.key};
 
 
-                f"element twoNodeLink {self.input_key} {self.nodes[0].key} {self.nodes[-1].key} "
+                f"element twoNodeLink {self.key} {self.nodes[0].key} {self.nodes[-1].key} "
                 f"-mat {self.section.material.key} {self.section.material.key} {self.section.material.key} "
                 f"-dir 1 2 3 4 5 6"
 """
@@ -110,10 +110,6 @@ class CastemBeamElement(BeamElement):
     Under development :
         - TIMO
         - BARR
-
-    Warning
-    -------
-    The `Open Section(OS)` formulation is currently under development.
 
     """
 
@@ -159,7 +155,7 @@ class OpenseesTrussElement(TrussElement):
         super(OpenseesTrussElement, self).__init__(nodes=nodes, section=section, **kwargs)
 
     def jobdata(self):
-        return f"element Truss {self.input_key} {self.nodes[0].input_key} {self.nodes[1].input_key} {self.section.A} {self.section.material.input_key}"
+        return f"element Truss {self.key} {self.nodes[0].key} {self.nodes[1].key} {self.section.A} {self.section.material.key}"
 
 
 # ==============================================================================
@@ -167,15 +163,32 @@ class OpenseesTrussElement(TrussElement):
 # ==============================================================================
 
 
-class OpenseesShellElement(ShellElement):
-    """OpenSees implementation of a :class:`ShellElemnt`."""
+class CastemShellElement(ShellElement):
+    """CASTEM implementation of a :class:`ShellElemnt`."""
 
     __doc__ += ShellElement.__doc__
     __doc__ += """
-    Additional Parameters
+
+    Shell modelisation types :
     ---------------------
-    mat_behaviour : str
-        String representing material behavior. It can be either “PlaneStrain” or “PlaneStress.”
+    COQ3 mode / TRI3 element :
+        3-node triangular elements for thin shell with Kirchhoff-Love hypothesis.
+    
+    COQ4 mode / QUA4 element :
+        4-node quadrangular elements for thin shell with shear.
+
+    COQ6 mode / TRI6 element :
+        6-node triangular element, thick shell with Mindlin-Reissner hypothesis
+
+    COQ8 mode /QUA8 element :
+        8-node quadrangular element, thick shell with Mindlin-Reissner hypothesis and curved sides
+
+    DKT mode / TRI3 element :
+        3-node triangular elements for thin shell (Discrete Kirchhoff Triangle)
+
+    DST mode / TRI3 :
+        3-node triangular elements for thick shell ( Discrete Shear Triangle)
+
 
     Notes
     -----
@@ -183,150 +196,30 @@ class OpenseesShellElement(ShellElement):
     and the second node and the third axis peperdicular to the plane of the element.
 
     """
-    # TODO maybe move mat_behavior to the material or section
 
-    def __init__(self, nodes, section, implementation=None, mat_behaviour="PlaneStress", **kwargs):
-        self._mat_behaviour = mat_behaviour
-        super(OpenseesShellElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
+    def __init__(self, nodes, section, implementation=None, **kwargs):
+        super(CastemShellElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
         if not self.implementation:
             if len(nodes) == 3:
-                self._implementation = "shelldkgt"  # 'Tri31'
+                self._implementation = "COQ3" 
+                self._type_element = "TRI3"
             elif len(nodes) == 4:
-                self._implementation = "shellMITC4"
+                self._implementation = "COQ4"
+                self._type_element = "QUA4"
+            elif len(nodes) == 6:
+                self._implementation = "COQ6"
+                self._type_element = "TRI6"
+            elif len(nodes) == 8:
+                self._implementation = "COQ8"
+                self._type_element = "QUA8"
             else:
                 raise NotImplementedError("An element with {} nodes is not supported".format(len(nodes)))
 
-    @property
-    def mat_behaviour(self):
-        return self._mat_behaviour
-
     def jobdata(self):
-        try:
-            return getattr(self, "_" + self._implementation.lower())()
-        except AttributeError:
-            raise ValueError("{} is not a valid implementation.".format(self._implementation))
-
-    def _tri31(self):
-        """Construct a Tri31 element objec.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.berkeley.edu/wiki/index.php/Tri31_Element>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-        """
-        return "element tri31 {} {} {} {} {}".format(
-            self.input_key,
-            " ".join(str(node.input_key) for node in self.nodes),
-            self.section.t,
-            self._mat_behaviour,
-            self.section.material.input_key + 1000,
-        )
-
-    def _shelldkgt(self):
-        """Construct a ShellDKGT element object, which is a triangular shell
-        element based on the theory of generalized conforming element.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.berkeley.edu/wiki/index.php/ShellDKGT>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-        """
-        self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
-        self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ShellDKGT {} {} {}".format(
-            self.input_key,
-            " ".join(str(node.input_key) for node in self.nodes),
-            self.section.input_key,
-        )
-
-    def _shelldkgq(self):
-        """Construct a ShellDKGQ element object, which is a quadrilateral shell element based on the theory of generalized conforming element.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.berkeley.edu/wiki/index.php/ShellDKGQ>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-        """
-        self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
-        self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ShellDKGQ {} {} {}".format(
-            self.input_key,
-            " ".join(str(node.input_key) for node in self.nodes),
-            self.section.input_key,
-        )
-
-    def _shellmitc4(self):
-        """Construct a ShellMITC4 element object, which uses a bilinear
-        isoparametric formulation in combination with a modified shear
-        interpolation to improve thin-plate bending performance.
-        """
-        self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
-        self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ShellMITC4 {} {} {}".format(
-            self.input_key,
-            " ".join(str(node.input_key) for node in self.nodes),
-            self.section.input_key,
-        )
-
-    def _asdshellq4(self):
-        """Construct an ASDShellQ4 element object.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/ASDShellQ4.html>`_
-        """
-        self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
-        self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element ASDShellQ4 {} {}  {}".format(
-            self.input_key,
-            " ".join(str(node.input_key) for node in self.nodes),
-            self.section.input_key,
-        )
-
-    def _fournodequad(self):
-        """Construct a FourNodeQuad element object which uses a bilinear isoparametric formulation.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/Quad.html>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-
-        """
-        self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
-        self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element quad {} {} {} {}".format(
-            self.input_key,
-            " ".join(str(node.input_key) for node in self.nodes),
-            self.section.t,
-            self.mat_behaviour,
-        )
-
-    def _sspquad(self):
-        """Construct a SSPquad (SSP –> Stabilized Single Point) element.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/SSPquad.html>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-
-        """
-        self._frame = Frame.from_points(self.nodes[0].xyz, self.nodes[1].xyz, self.nodes[2].xyz)
-        self._results_format = ("S11", "S22", "S12", "M11", "M22", "M12")
-        return "element SSPquad {} {} {} {}".format(
-            self.input_key,
-            " ".join(node.input_key for node in self.nodes),
-            self.section.material.input_key,
-            self.section.material.input_key,
-        )
+        if any(x in self.implementation for x in ["COQ3", "COQ4", "COQ6", "COQ8", "DKT", "DST"]):
+            return jobdata(self)
+        else:
+            raise NotImplementedError
 
 
 class OpenseesMembraneElement(MembraneElement):
@@ -344,7 +237,7 @@ class OpenseesMembraneElement(MembraneElement):
 # ==============================================================================
 
 
-class _OpenseesElement3D(_Element3D):
+class _CastemElement3D(_Element3D):
     """"""
 
     __doc__ += _Element3D.__doc__
@@ -356,68 +249,38 @@ class _OpenseesElement3D(_Element3D):
 
     """
 
-    def __init__(self, nodes, section, implementation="stdBrick", **kwargs):
-        super(_OpenseesElement3D, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
-
-    def _get_implementation(self):
-        try:
-            return getattr(self, "_" + self._type.lower())
-        except AttributeError:
-            raise ValueError("{} is not a valid implementation.".format(self._implementation))
+    def __init__(self, nodes, section, implementation=None, **kwargs):
+        super(_CastemElement3D, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
+        if not self.implementation:
+            self._implementation = "massif" 
+            if len(nodes) == 4:
+                self._type_element = "TET4"
+            elif len(nodes) == 5:
+                self._type_element = "PYR5"
+            elif len(nodes) == 6:
+                self._type_element = "PRI6"
+            elif len(nodes) == 8:
+                self._type_element = "CUB8"
+            elif len(nodes) == 10:
+                self._type_element = "TE10"
+            elif len(nodes) == 13:
+                self._type_element = "PY13"
+            elif len(nodes) == 15:
+                self._type_element = "PY15"
+            elif len(nodes) == 20:
+                self._type_element = "CU20"
+            else:
+                raise NotImplementedError("An element with {} nodes is not supported".format(len(nodes)))
 
     def jobdata(self):
-        return "element {}  {}  {}".format(
-            self.input_key,
-            self._implementation,
-            " ".join(node.input_key for node in self.nodes),
-        )
-
-    # TODO complete implementations: for now it is all done in jobdata
-    def _stdbrick(self):
-        """Construct an eight-node brick element object, which uses the standard isoparametric formulation.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/stdBrick.html>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-
-        """
-        return
-
-    def _bbarbrick(self):
-        """Construct an eight-node mixed volume/pressure brick element object, which uses a trilinear isoparametric formulation.
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/bbarBrick.html>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-
-        """
-        return
-
-    def _sspbrick(self):
-        """Construct an eight-node ssp brick element. The SSPbrick element is an
-        eight-node hexahedral element using physically stabilized single-point
-        integration (SSP –> Stabilized Single Point).
-
-        For more information about this element in OpenSees check
-        `here <https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/SSPbrick.html>`_
-
-        Note
-        ----
-        The optional arguments are not implemented.
-
-        """
-
-        return
+        if any(x in self._type_element for x in ["TET4", "PYR5", "PRI6", "CUB8", "TE10", "PY13", "PY15", "CU20"]):
+            return jobdata(self)
+        else:
+            raise NotImplementedError
 
 
 # TODO double inheritance from _OpenseesElement3D
-class OpenseesTetrahedronElement(TetrahedronElement):
+class CastemTetrahedronElement(TetrahedronElement, _CastemElement3D):
     """Opensees implementation of :class:`TetrahedronElement`
 
     Note
@@ -447,19 +310,16 @@ class OpenseesTetrahedronElement(TetrahedronElement):
 
     """
 
-    def __init__(self, nodes, section=None, implementation="FourNode", **kwargs):
-        super(OpenseesTetrahedronElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
-        if len(self._nodes) not in [4]:
-            raise ValueError("A solid element with {} nodes cannot be created.".format(len(nodes)))
-
+    def __init__(self, nodes, section=None, implementation=None, **kwargs):
+        super(CastemTetrahedronElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
     def jobdata(self):
-        try:
-            return getattr(self, "_" + self.implementation)()
-        except AttributeError:
-            raise ValueError("{} is not a valid implementation.".format(self._implementation))
+        if any(x in self._type_element for x in ["TET4","TE10"]):
+            return jobdata(self)
+        else:
+            raise ValueError("A solid element with {} nodes cannot be created.".format(len(self.nodes)))
 
-    def _FourNode(self):
-        return f"element FourNodeTetrahedron {self.input_key} {' '.join(str(n.input_key) for n in self.nodes)} {self.section.material.input_key + 1000}"
+    # def _FourNode(self):
+    #     return f"element FourNodeTetrahedron {self.key} {' '.join(str(n.key) for n in self.nodes)} {self.section.material.key + 1000}"
 
-    def _TenNode(self):
-        raise NotImplementedError
+    # def _TenNode(self):
+    #     raise NotImplementedError

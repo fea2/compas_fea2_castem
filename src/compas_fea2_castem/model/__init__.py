@@ -21,13 +21,18 @@ from .bcs import (
 )
 
 # Castem Element
-from .elements import CastemBeamElement
+from .elements import (CastemBeamElement,
+                       CastemShellElement,
+                       _CastemElement3D,
+                       CastemTetrahedronElement)
 
 # Castem Materials
 from .materials import CastemElasticIsotropic
 
 # Castem Section
-from .sections import CastemRectangularSection
+from .sections import (CastemRectangularSection,
+                       CastemShellSection,
+                       CastemSolidSection)
 
 # Castem connectors
 from .connectors import CastemRigidLinkConnector
@@ -53,7 +58,12 @@ __all__ = [
     "CastemRollerBCYZ",
     "CastemRollerBCZ",
     "CastemBeamElement",
+    "CastemShellElement",
     "CastemElasticIsotropic",
     "CastemRectangularSection",
+    "CastemShellSection",
+    "CastemSolidSection",
     "CastemRigidLinkConnector",
+    "_CastemElement3D",
+    "CastemTetrahedronElement"
 ]

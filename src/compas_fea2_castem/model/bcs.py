@@ -28,7 +28,7 @@ def _jobdata(bc, nodes):
         if getattr(bc, dof):
             mdl_dofs.append(castem_dofs[dof])
 
-    return "\n".join(["CLTOT= CLTOT ET (BLOQ {0} N{1}) ;".format(" ".join([castem_dof for castem_dof in mdl_dofs]), node.input_key) for node in nodes])
+    return "\n".join(["CLTOT= CLTOT ET (BLOQ {0} N{1}) ;".format(" ".join([castem_dof for castem_dof in mdl_dofs]), node.key) for node in nodes])
 
 
 class CastemGeneralBC(GeneralBC):

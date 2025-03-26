@@ -34,7 +34,7 @@ class CastemConcentratedLoad(ConcentratedLoad):
         for dof in dofs:
             if self.components[dof]:
                 load_dofs.append(castem_load[dof] + " " + str(self.components[dof]))
-        forc = "FORC {0} N{1}".format(" ".join([load for load in load_dofs]), node.input_key)
+        forc = "FORC {0} N{1}".format(" ".join([load for load in load_dofs]), node.key)
         return """***
 CHCHAR= {} ;
 EVCHAR = CHAR 'MECA' CHCHAR EVOLC;
