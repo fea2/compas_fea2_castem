@@ -7,7 +7,6 @@ from compas_fea2.model import BeamSection
 from compas_fea2.model import BoxSection
 from compas_fea2.model import CircularSection
 from compas_fea2.model import HexSection
-
 from compas_fea2.model import ISection
 from compas_fea2.model import MassSection
 from compas_fea2.model import MembraneSection
@@ -24,9 +23,9 @@ from compas_fea2.model import TrussSection
 # NOTE: these classes are sometimes overwriting the _base ones because Abaqus offers internal ways of computing beam sections' properties
 
 
-
 def beam_jobdata(self):
     return "SECT {0} INRY {1} INRZ {2} TORS {3} SECY {4} SECZ{5}".format(self.A, self.Ixx, self.Iyy, self.J, self.Avx, self.Avy)
+
 
 # ==============================================================================
 # 0D
@@ -96,6 +95,7 @@ class AbaqusBeamSection(BeamSection):
 
 class CastemAngleSection(AngleSection):
     """Castem implementation of the :class:`BoxSection`.\n"""
+
     __doc__ += AngleSection.__doc__
     __doc__ += """
     Note
@@ -103,6 +103,7 @@ class CastemAngleSection(AngleSection):
     The section properties are automatically computed by Abaqus.
 
     """
+
     def __init__(self, w, h, t, material, name=None, **kwargs):
         super(CastemAngleSection, self).__init__(w, h, t, material, name=name, **kwargs)
 
@@ -114,7 +115,6 @@ class CastemBoxSection(BoxSection):
     """Castem implementation of the :class:`BoxSection`.\n"""
 
     __doc__ += BoxSection.__doc__
-   
 
     def __init__(self, w, h, t, material, **kwargs):
         super(CastemBoxSection, self).__init__(self, w, h, t, material, **kwargs)
@@ -157,7 +157,7 @@ class CastemHexSection(HexSection):
         super(CastemHexSection, self).__init__(r, t, material, name=name, **kwargs)
         self._stype = "hex"
         self.properties = [r, t]
-    
+
     def jobdata(self):
         return beam_jobdata(self)
 
@@ -179,11 +179,11 @@ class CastemPipeSection(PipeSection):
 
     __doc__ += PipeSection.__doc__
 
-#TODO Cast3m might have some complementary properties
+    # TODO Cast3m might have some complementary properties
 
     def __init__(self, r, t, material, name=None, **kwarg):
         super(CastemPipeSection, self).__init__(r, t, material, name=name, **kwarg)
-    
+
     def jobdata(self):
         return beam_jobdata(self)
 
@@ -198,6 +198,7 @@ class CastemRectangularSection(RectangularSection):
 
     def jobdata(self):
         return beam_jobdata(self)
+
 
 class AbaqusTrapezoidalSection(TrapezoidalSection):
     """Abaqus implementation of the :class:`TrapezoidalSection`.\n"""

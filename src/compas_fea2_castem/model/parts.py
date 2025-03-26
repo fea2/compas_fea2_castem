@@ -71,7 +71,7 @@ TABELE.ELE.ID = E{element.jobdata()[0]};
                             obj.key,
                             section.key,
                             section.material.jobdata()[0],
-                            implementation if not(implementation=="massif") else "",
+                            implementation if not (implementation == "massif") else "",
                         )
                     )
                     part_data.append(
@@ -86,9 +86,8 @@ TABELE.ELE.ID = E{element.jobdata()[0]};
                     part_data.append("MODTOT = MODTOT ET MOD{0}{1};".format(obj.key, section.key))
                     if section.jobdata():
                         part_data.append("MATTOT = MATTOT ET MAT{0}{1} ET CARA{0}{1};".format(obj.key, section.key))
-                    else :
+                    else:
                         part_data.append("MATTOT = MATTOT ET MAT{0}{1};".format(obj.key, section.key))
-
 
     else:
         for implementation, elements in grouped_elements.items():

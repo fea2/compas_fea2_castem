@@ -2,7 +2,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from compas.geometry import Frame
 from compas_fea2.model import BeamElement
 from compas_fea2.model import LinkElement
 from compas_fea2.model import MassElement
@@ -201,7 +200,7 @@ class CastemShellElement(ShellElement):
         super(CastemShellElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
         if not self.implementation:
             if len(nodes) == 3:
-                self._implementation = "COQ3" 
+                self._implementation = "COQ3"
                 self._type_element = "TRI3"
             elif len(nodes) == 4:
                 self._implementation = "COQ4"
@@ -252,7 +251,7 @@ class _CastemElement3D(_Element3D):
     def __init__(self, nodes, section, implementation=None, **kwargs):
         super(_CastemElement3D, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
         if not self.implementation:
-            self._implementation = "massif" 
+            self._implementation = "massif"
             if len(nodes) == 4:
                 self._type_element = "TET4"
             elif len(nodes) == 5:
@@ -312,8 +311,9 @@ class CastemTetrahedronElement(TetrahedronElement, _CastemElement3D):
 
     def __init__(self, nodes, section=None, implementation=None, **kwargs):
         super(CastemTetrahedronElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
+
     def jobdata(self):
-        if any(x in self._type_element for x in ["TET4","TE10"]):
+        if any(x in self._type_element for x in ["TET4", "TE10"]):
             return jobdata(self)
         else:
             raise ValueError("A solid element with {} nodes cannot be created.".format(len(self.nodes)))

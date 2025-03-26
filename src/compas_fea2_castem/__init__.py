@@ -221,7 +221,7 @@ try:
         #     OpenseesTrussSection,
         #     OpenseesMembraneSection,
         CastemShellSection,
-        CastemSolidSection
+        CastemSolidSection,
     )
 
     # # Opensees Materials

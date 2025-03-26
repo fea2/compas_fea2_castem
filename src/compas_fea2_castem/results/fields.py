@@ -1,4 +1,6 @@
-from compas_fea2.results import DisplacementFieldResults, ReactionFieldResults, SectionForcesFieldResults
+from compas_fea2.results import DisplacementFieldResults
+from compas_fea2.results import ReactionFieldResults
+from compas_fea2.results import SectionForcesFieldResults
 
 
 def dgibi_export_node_results(castem_tab3_input, list_compo, field_name, path):
