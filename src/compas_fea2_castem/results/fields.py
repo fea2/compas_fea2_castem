@@ -1,6 +1,7 @@
 from compas_fea2.results import DisplacementFieldResults
 from compas_fea2.results import ReactionFieldResults
 from compas_fea2.results import SectionForcesFieldResults
+from compas_fea2.results import StressFieldResults
 
 
 def dgibi_export_node_results(castem_tab3_input, list_compo, field_name, path):
@@ -54,6 +55,20 @@ class CastemSectionForcesFieldResults(SectionForcesFieldResults):
 NCONTRAINTES = DIME TAB3.CONTRAINTES;
 TCONTRAINTES = TAB3.CONTRAINTES.(NCONTRAINTES-1);
 TAB{self.field_name} = SFTAB TCONTRAINTES TABELE;
+OPTI SORT '{self.problem.path}\\{self.field_name}';
+SORT  'EXCE' TAB{self.field_name} 'SEPA' 'ESPA';
+"""
+
+class CastemStressFieldResults(StressFieldResults):
+
+    def __init__(self, **kwargs):
+        super(CastemStressFieldResults, self).__init__(**kwargs)
+
+    def jobdata(self):
+        return f"""
+NCONTRAINTES = DIME TAB3.CONTRAINTES;
+TCONTRAINTES = TAB3.CONTRAINTES.(NCONTRAINTES-1);
+TAB{self.field_name} = STRESSTAB TCONTRAINTES;
 OPTI SORT '{self.problem.path}\\{self.field_name}';
 SORT  'EXCE' TAB{self.field_name} 'SEPA' 'ESPA';
 """

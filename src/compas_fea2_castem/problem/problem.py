@@ -202,6 +202,7 @@ class CastemProblem(Problem):
         _type_
             _description_
         """
+        self.model.assign_keys(start=self.model._key)
         self.analyse(
             path,
             exe=exe,

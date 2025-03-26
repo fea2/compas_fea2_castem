@@ -20,6 +20,6 @@ from __future__ import print_function
 
 from .results_to_sql import read_results_file
 
-from .fields import CastemDisplacementFieldResults, CastemReactionFieldResults, CastemSectionForcesFieldResults
+from .fields import CastemDisplacementFieldResults, CastemReactionFieldResults, CastemSectionForcesFieldResults, CastemStressFieldResults
 
-__all__ = ["read_results_file", CastemDisplacementFieldResults, CastemReactionFieldResults, CastemSectionForcesFieldResults]
+__all__ = ["read_results_file", CastemDisplacementFieldResults, CastemReactionFieldResults, CastemSectionForcesFieldResults, CastemStressFieldResults]

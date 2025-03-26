@@ -28,7 +28,7 @@ class CastemInputFile(InputFile):
     def __init__(self, **kwargs):
         super(CastemInputFile, self).__init__(**kwargs)
         self._extension = "dgibi"
-        self.procedures = """
+        self.procedures = f"""
 *post-treatment procedure creating a table contening the key and corresponding results of a node
 *entry : champs par point des résultats 
 DEBP CHPOTAB CHOUT*'CHPOINT' LCOMP*'LISTMOTS' TABPO*'TABLE';
@@ -96,6 +96,37 @@ DEBP SFTAB CHCONT*'MCHAML' TABEL*'TABLE';
         TABO.MZ1 = TABO.MZ1 ET (PROG VALi1MZ);
         TABO.MZ2 = TABO.MZ2 ET (PROG VALi2MZ);
     FIN BOUC1;
+FINP TABO;
+
+
+DEBP STRESSTAB CHCONT*'MCHAML';
+
+    LCOMP = EXTR CHCONT COMP;
+    NBPART = {len(self.model.parts)};
+    NMOT = DIME LCOMP;
+    
+    TABO =  VIDE 'TABU' ((MOTS 'KEY') ET LCOMP) 'LISTENTI'*1 'LISTREEL'*NMOT;
+
+    TABM = TABLE;
+    REPETER BOUCM NMOT;
+        TABM.(&BOUCM) = EXTR LCOMP &BOUCM;
+    FIN BOUCM; 
+
+    REPE BOUC1 NBPART;
+        
+        NELE = DIME TABELE.(&BOUC1-1).ELE;
+        REPE BOUC2 NELE;
+            KEYi = TABELE.(&BOUC1-1).KEY.(&BOUC2-1);
+            TABO.KEY = TABO.KEY ET (LECT KEYi);
+            REPE BOUC3 NMOT;
+                MOTi = TABM.&BOUC3;
+                VALi = EXTR CHCONT MOTi &BOUC1 (&BOUC2-1) 1;
+                TABO.MOTi = TABO.MOTi ET (PROG VALi);
+            FIN BOUC3;
+        FIN BOUC2;
+
+    FIN BOUC1;
+LIST TABO;
 FINP TABO;
 
 """

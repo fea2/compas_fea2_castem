@@ -169,7 +169,7 @@ from compas_fea2.results.fields import (
     # AccelerationFieldOutput,
     # VelocityFieldOutput,
     ReactionFieldResults,
-    # Stress2DFieldOutput,
+    StressFieldResults,
     SectionForcesFieldResults,
     # HistoryOutput,
 )
@@ -327,7 +327,7 @@ try:
         #     OpenseesAccelerationFieldOutput,
         #     OpenseesVelocityFieldOutput,
         CastemReactionFieldResults,
-        #     OpenseesStress2DFieldOutput,
+        CastemStressFieldResults,
         CastemSectionForcesFieldResults,
         #     OpenseesHistoryOutput,
     )
@@ -441,7 +441,7 @@ try:
         # backend[AccelerationFieldOutput] = OpenseesAccelerationFieldOutput
         # backend[VelocityFieldOutput] = OpenseesVelocityFieldOutput
         backend[ReactionFieldResults] = CastemReactionFieldResults
-        # backend[Stress2DFieldOutput] = OpenseesStress2DFieldOutput
+        backend[StressFieldResults] = CastemStressFieldResults
         backend[SectionForcesFieldResults] = CastemSectionForcesFieldResults
 
         backend[InputFile] = CastemInputFile

@@ -20,19 +20,24 @@ def jobdata(obj):
     """
     return """
 ***------------------------------------------------------------------
-*** Part {}
+*** Part {0}
 ***------------------------------------------------------------------
 *** - Nodes
 ***   -----
-{}
+{1}
 
 ***node_data
 *** - Elements
 ***   --------
-{}
+
+TABELE.({2}) = TABLE ;
+TABELE.({2}).KEY = TABLE;
+TABELE.({2}).ELE = TABLE;
+
+{3}
 ***
 """.format(
-        obj.name, _generate_nodes_section(obj), _generate_elements_section(obj) or "***"
+        obj.name, _generate_nodes_section(obj), obj.key, _generate_elements_section(obj) or "***"
     )
 
 
@@ -59,9 +64,9 @@ def _generate_elements_section(obj):
                         part_data.append("MAIL{0}{1} = MAIL{0}{1} ET E{2} ;".format(obj.key, section.key, element.jobdata()[0]))
                         part_data.append(
                             f"""
-ID = DIME TABELE.KEY;
-TABELE.KEY.ID = {element.jobdata()[0]};
-TABELE.ELE.ID = E{element.jobdata()[0]};
+ID = DIME TABELE.({obj.key}).KEY;
+TABELE.({obj.key}).KEY.ID = {element.jobdata()[0]};
+TABELE.({obj.key}).ELE.ID = E{element.jobdata()[0]};
 """
                         )
                     # Write material and section per group of elements
