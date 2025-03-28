@@ -1,8 +1,3 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-from compas_fea2.problem.steps import StaticRiksStep
 from compas_fea2.problem.steps import StaticStep
 
 
@@ -77,7 +72,6 @@ class CastemStaticStep(StaticStep):
 
     def __init__(
         self,
-        *,
         max_increments=1,
         initial_inc_size=1,
         min_inc_size=0.00001,
@@ -88,7 +82,7 @@ class CastemStaticStep(StaticStep):
         max_under_increments=10,
         **kwargs,
     ):
-        super(CastemStaticStep, self).__init__(
+        super().__init__(
             max_increments,
             initial_inc_size,
             min_inc_size,
@@ -113,7 +107,7 @@ class CastemStaticStep(StaticStep):
 *** - Loads
 ***   -------------
 *** Evolution definition
-TCAL = PROG 0. 'PAS' {self.t_under_inc} 1.; 
+TCAL = PROG 0. 'PAS' {self.t_under_inc} 1.;
 TSAUV = PROG 0. 'PAS' {self.t_under_inc} 1.;
 
 LISTEMP = PROG 0. 1.;
@@ -161,7 +155,6 @@ PASAPAS TAB3;
 
     def _generate_displacements_section(self):
         return "***"
-        return "\n".join([pattern.load.jobdata(pattern.distribution) for pattern in self.displacements]) or "***"
 
     def _generate_loads_section(self):
         return self.combination.jobdata()
@@ -178,120 +171,4 @@ PASAPAS TAB3;
             for houtput in self._history_outputs:
                 data_section.append(houtput.jobdata())
 
-        return "\n".join(data_section)
-
-
-class OpenseesStaticRiksStep(StaticRiksStep):
-    """
-    Opensees implementation of the :class:`StaticRiksStep`.
-
-    Parameters
-    ----------
-    max_increments : int, optional
-        Maximum number of increments (default is 100).
-    initial_inc_size : float, optional
-        Initial increment size (default is 1).
-    min_inc_size : float, optional
-        Minimum increment size (default is 0.00001).
-    ArcLength : list, optional
-        Arc length control parameters [s, dU, JdU] (default is [1.0e-2, 1.0e-4, 10]).
-        - s: Arc length step size, suitable for controlling the step size in arc length method.
-        - dU: Displacement increment, suitable for controlling the displacement increment in arc length method.
-        - JdU: Number of iterations, suitable for controlling the number of iterations in arc length method.
-    time : float, optional
-        Total time of the step (default is 1).
-    nlgeom : bool, optional
-        Nonlinear geometry flag (default is False).
-    modify : bool, optional
-        Modify flag (default is True).
-    name : str, optional
-        Name of the step.
-    """
-
-    def __init__(
-        self,
-        max_increments=100,
-        initial_inc_size=1,
-        min_inc_size=0.00001,
-        ArcLength=[1.0e-2, 1.0e-4, 10],
-        time=1,
-        nlgeom=False,
-        modify=True,
-        name=None,
-        **kwargs,
-    ):
-        super().__init__(
-            max_increments,
-            initial_inc_size,
-            min_inc_size,
-            time,
-            nlgeom,
-            modify,
-            name,
-            **kwargs,
-        )
-        self.ArcLength = ArcLength
-
-    def jobdata(self):
-        return f"""***
-{self._generate_header_section()}
-*** - Displacements
-***   -------------
-{self._generate_displacements_section()}
-***
-*** - Loads
-***   -----
-{self._generate_loads_section()}
-***
-*** - Predefined Fields
-***   -----------------
-{self._generate_fields_section()}
-***
-*** - Output Requests
-***   ---------------
-{self._generate_output_section()}
-***
-*** - Analysis Parameters
-***   -------------------
-***
-constraints Transformation
-numberer RCM
-system BandGeneral
-test NormDispIncr {self.ArcLength[0]} {self.ArcLength[1]} {self.ArcLength[2]}
-algorithm Newton
-integrator ArcLength {self.ArcLength[0]}
-
-analysis Static
-
-analyze {self.max_increments}
-loadConst -time 0.0
-"""
-
-    def _generate_header_section(self):
-        return """***
-*** STEP {0}
-***
-***
-*** timeSeries Constant {1} -factor 1.0
-***""".format(
-            self.name, self.problem._steps_order.index(self)
-        )
-
-    def _generate_displacements_section(self):
-        return "\n".join([pattern.load.jobdata(pattern.distribution) for pattern in self.displacements]) or "***"
-
-    def _generate_loads_section(self):
-        return self.combination.jobdata()
-
-    def _generate_fields_section(self):
-        return "***"
-
-    def _generate_output_section(self):
-        data_section = ["***"]
-        if self._field_outputs:
-            for foutput in self._field_outputs:
-                data_section.append(foutput.jobdata())
-        if self._history_outputs:
-            for houtput in self._history_outputs:
-                data_section.append(houtput.jobdata())
         return "\n".join(data_section)

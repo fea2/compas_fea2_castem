@@ -1,25 +1,26 @@
 """
 ********************************************************************************
-abaqus.results
+castem.results
 ********************************************************************************
-
-.. currentmodule:: compas_fea2.backends.abaqus.problem
 
 Results
 =======
 .. autosummary::
     :toctree: generated/
 
-    Results
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from .fields import (
+    CastemDisplacementFieldResults,
+    CastemReactionFieldResults,
+    CastemSectionForcesFieldResults,
+    CastemStressFieldResults,
+)
 
-from .results_to_sql import read_results_file
-
-from .fields import CastemDisplacementFieldResults, CastemReactionFieldResults, CastemSectionForcesFieldResults, CastemStressFieldResults
-
-__all__ = ["read_results_file", CastemDisplacementFieldResults, CastemReactionFieldResults, CastemSectionForcesFieldResults, CastemStressFieldResults]
+__all__ = [
+    "CastemDisplacementFieldResults",
+    "CastemReactionFieldResults",
+    "CastemSectionForcesFieldResults",
+    "CastemStressFieldResults",
+]

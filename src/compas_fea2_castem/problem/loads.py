@@ -1,7 +1,3 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 from compas_fea2.problem import ConcentratedLoad
 from compas_fea2.problem import GravityLoad
 from compas_fea2.problem import HarmonicPointLoad
@@ -19,7 +15,7 @@ class CastemConcentratedLoad(ConcentratedLoad):
     __doc__ += ConcentratedLoad.__doc__
 
     def __init__(self, x=None, y=None, z=None, xx=None, yy=None, zz=None, axes="global", **kwargs):
-        super(CastemConcentratedLoad, self).__init__(x=x, y=y, z=z, xx=xx, yy=yy, zz=zz, axes=axes, **kwargs)
+        super().__init__(x=x, y=y, z=z, xx=xx, yy=yy, zz=zz, axes=axes, **kwargs)
 
     def jobdata(self, node):
         castem_load = {

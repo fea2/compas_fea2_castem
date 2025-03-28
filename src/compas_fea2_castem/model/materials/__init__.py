@@ -1,3 +1,5 @@
 from .material import CastemElasticIsotropic
 
-__all__ = ["CastemElasticIsotropic"]
+__all__ = [
+    "CastemElasticIsotropic",
+]

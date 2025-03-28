@@ -4,79 +4,25 @@ from compas_fea2.problem import Problem
 from compas_fea2.utilities._utils import launch_process
 from compas_fea2.utilities._utils import timer
 
-# from ..job.input_file import CastemInputFile, CastemRestartInputFile
-
 
 class CastemProblem(Problem):
     """Castem implementation of :class:`Problem`.\n"""
 
     __doc__ += Problem.__doc__
 
-    def __init__(self, name=None, description=None, **kwargs):
-        super(CastemProblem, self).__init__(name=name, description=description, **kwargs)
+    def __init__(self, description=None, **kwargs):
+        super().__init__(description=description, **kwargs)
 
     # =========================================================================
     #                         Analysis methods
     # =========================================================================
-    def _build_command(self, path, name, **kwargs):
-        # Set options
-        option_keywords = []
-        # overwrite_kw = ""
-        # user_sub_kw = ""
-        # exe_kw = "castem24"
-        if kwargs.get("overwrite", None):
-            option_keywords.append("ask_delete=OFF")
-        if kwargs.get("user_mat", None):
-            raise NotImplementedError
-            # umat_path = problem.materials[user_mat].sub_path
-            # user_sub_kw = "user={}".format(umat_path)
-        if kwargs.get("exe", None):
-            raise NotImplementedError()
-            raise NotADirectoryError()
-            # exe_kw = exe
-        if kwargs.get("oldjob", None):
-            option_keywords.append("oldjob={}".format(kwargs["oldjob"]))
-        if kwargs.get("cpus", None):
-            option_keywords.append("cpus={}".format(kwargs["cpus"]))
-
+    def _build_command(self, path, name):
         return "cd {} && castem24 {}.dgibi".format(path, name)
-        # return 'cd {} && {} {} cpus={} job={} interactive resultsformat=odb {}'.format(
-        #     path, exe_kw, user_sub_kw, cpus, name, overwrite_kw)
 
-    # @timer(message="Finished writing input file in")
-    # def write_restart_file(self, path, start, steps):
-    #     # type: (str, float, list(_Step)) -> AbaqusRestartInputFile
-    #     """Writes the castem input file.
-
-    #     Parameters
-    #     ----------
-    #     path : :class:`pathlib.Path`
-    #         Path to the folder where the input file is saved. In case the folder
-    #         does not exist, one is created.
-    #     restart : dict
-    #         parameters for the restart option
-
-    #     Returns
-    #     -------
-    #     None
-    #     """
-    #     if not path.exists():
-    #         raise ValueError("No analysis results found for {!r}".format(self))
-    #     restart_file = CastemRestartInputFile.from_problem(problem=self, start=start, steps=steps)
-    #     restart_file.write_to_file(self.path)
-    #     return restart_file
-
-    @timer(message="Analysis completed in")
     def analyse(
         self,
         path,
-        exe=None,
-        cpus=1,
         verbose=False,
-        overwrite=True,
-        user_mat=None,
-        *args,
-        **kwargs,
     ):
         """Runs the analysis through abaqus.
 
@@ -108,69 +54,16 @@ class CastemProblem(Problem):
         print("\nBegin the analysis...")
         self._check_analysis_path(path)
         self.write_input_file()
-        cmd = self._build_command(
-            overwrite=overwrite,
-            user_mat=user_mat,
-            exe=exe,
-            path=self.path,
-            name=self.name,
-            cpus=cpus,
-        )
-        for line in launch_process(cmd_args=cmd, cwd=self.path, verbose=verbose):
-            print(line)
-
-    # @timer(message="Analysis completed in")
-    # def restart_analysis(self, start, steps, exe=None, cpus=1, output=True, overwrite=True):
-    #     # type: (Problem, float, list(_Step), str, int, bool, bool) -> None
-    #     """Runs the analysis through abaqus.
-
-    #     Parameters
-    #     ----------
-    #     start : float
-    #         Time-step increment.
-    #     steps : [:class:`compas_fea2.problem.Step`]
-    #         List of steps to add to the orignal problem.
-    #     exe : str, optional
-    #         Full terminal command to bypass subprocess defaults, by default ``None``.
-    #     cpus : int, optional
-    #         Number of CPU cores to use, by default ``1``.
-    #     output : bool, optional
-    #         Print terminal output, by default ``True``.
-    #     overwrite : bool, optional
-    #         Overwrite existing analysis files, by default ``True``.
-
-    #     Returns
-    #     -------
-    #     None
-
-    #     """
-    #     if not self.path:
-    #         raise AttributeError("No analysis path found! Are you sure you analysed this problem?")
-    #     restart_file = self.write_restart_file(path=self.path, start=start, steps=steps)
-    #     cmd = self._build_command(
-    #         overwrite=overwrite,
-    #         user_mat=None,
-    #         exe=exe,
-    #         path=self.path,
-    #         name=restart_file._job_name,
-    #         cpus=cpus,
-    #         oldjob=self.name,
-    #     )
-    #     print("\n\n*** RESTARTING PREVIOUS JOB ***\n")
-    #     for line in launch_process(cmd_args=cmd, cwd=self.path, verbose=output):
-    #         print(line)
+        cmd = self._build_command(path=self.path, name=self.name)
+        for line in launch_process(cmd_args=cmd, cwd=self.path):
+            if verbose:
+                print(line)
 
     @timer(message="Analysis and extraction completed in")
     def analyse_and_extract(
         self,
         path,
-        exe=None,
-        cpus=1,
-        output=True,
-        overwrite=True,
-        user_mat=None,
-        fields=None,
-        *args,
+        verbose=False,
         **kwargs,
     ):
         """_summary_
@@ -203,22 +96,12 @@ class CastemProblem(Problem):
             _description_
         """
         self.model.assign_keys(start=self.model._key)
-        self.analyse(
-            path,
-            exe=exe,
-            cpus=cpus,
-            verbose=output,
-            overwrite=overwrite,
-            user_mat=user_mat,
-        )
-        if kwargs.get("save", False):
-            self.model.to_cfm(self.model.path.joinpath(f"{self.model.name}.cfm"))
+        self.analyse(path, verbose)
         return self.convert_results_to_sqlite()
 
     # ==========================================================================
     # Extract results
     # ==========================================================================
-    @timer(message="Data extracted from Castem .inp file in")
     def convert_results_to_sqlite(self, database_path=None, database_name=None, field_output=None):
         """Extract data from the Castem .inp file and store into a SQLite database.
 
@@ -240,76 +123,14 @@ class CastemProblem(Problem):
         connection = sqlite3.connect(self.path_db)
 
         for step in self.steps:
-            #     if isinstance(step, compas_fea2_castem.CastemModalAnalysis):
-            #         process_modal_shapes(connection, step)
-            #     else:
             for field_output in step.field_outputs:
                 read_results_file(connection, field_output)
-
         connection.close()
         print("Results extraction completed!")
-
-    @timer(message="Data extracted from Abaqus .odb file in")
-    def convert_results_to_json(self, database_path=None, database_name=None, fields=None):
-        """Extract data from the Abaqus .odb file.
-
-        Parameters
-        ----------
-        fields : list
-            Output fields to extract, by default 'None'. If `None` all available
-            fields will be extracted, which might require considerable time.
-
-        Note
-        ----
-        The results are serialized according to the following schema:
-        {
-            Step1:{Part1:{"nodes":{nodekey1:{field1: value1,
-                                              field2: value2,
-                                              ..},
-                                      nodekey2:{...},
-                                      ...
-                                    },
-                           "elements":{elementkey1:{field1: value1,
-                                                    field2: value2,
-                                                    ...},
-                                       elementkey2:{...},
-                                       ...
-                                       }
-                           },
-                     Part2:{...},
-                     ...
-                     },
-            Step2:{...},
-            ...
-        }
-
-        Returns
-        -------
-        None
-
-        """
-        raise NotImplementedError()
-        # print("\nExtracting data from Abaqus .odb file...")
-        # database_path = database_path or self.path
-        # database_name = database_name or self.name
-        # args = [
-        #     "abaqus",
-        #     "python",
-        #     Path(results_to_sql.__file__),
-        #     ",".join(fields) if fields else "None",
-        #     database_path,
-        #     database_name,
-        # ]
-        # for line in launch_process(cmd_args=args, cwd=database_path, verbose=True):
-        #     print(line)
-
-        # return Path(database_path).joinpath("{}-results.db".format(database_name))
 
     # =============================================================================
     #                               Job data
     # =============================================================================
-
-    @timer(message="Problem generated in ")
     def jobdata(self):
         """Generates the string information for the input file.
 

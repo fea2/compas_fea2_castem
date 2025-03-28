@@ -1,11 +1,5 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 from compas_fea2.model import BeamElement
 from compas_fea2.model import LinkElement
-from compas_fea2.model import MassElement
-from compas_fea2.model import MembraneElement
 from compas_fea2.model import ShellElement
 from compas_fea2.model import TetrahedronElement
 from compas_fea2.model import TrussElement
@@ -36,17 +30,6 @@ def jobdata(element):
 # ==============================================================================
 # 0D elements
 # ==============================================================================
-class CastemMassElement(MassElement):
-    """"""
-
-    __doc__ += MassElement.__doc__
-
-    def __init__(self, *, node, section, **kwargs):
-        super(CastemMassElement, self).__init__(nodes=[node], section=section, **kwargs)
-
-        raise NotImplementedError
-
-
 class CastemLinkElement(LinkElement):
     """Check the documentation \n
     https://www-cast3m.cea.fr/index.php?page=notices&notice=RELA#Option%20ENSE%20:%20relation%20de%20mouvement%20d'ensemble15
@@ -57,7 +40,7 @@ class CastemLinkElement(LinkElement):
 
     __doc__ += LinkElement.__doc__
 
-    def __init__(self, *, nodes, **kwargs):
+    def __init__(self, nodes, **kwargs):
         super(CastemLinkElement, self).__init__(nodes=nodes, **kwargs)
 
     def jobdata(self):
@@ -66,7 +49,7 @@ class CastemLinkElement(LinkElement):
         for i in range(len(self.nodes)):
             return_l.append(f"LINKNODS = LINKNODS ET N{self.nodes[i].key};")
         return_l.append("RIGILINK = RIGILINK ET (RELA 'ENSE' )")
-        return f""" 
+        return f"""
 LINKNODS = VIDE MAILLAGE;
 REPE BOUC1 {len(self.nodes)};
     LINKNODS = LINKNODS ET N{self.key};
@@ -122,7 +105,7 @@ class CastemBeamElement(BeamElement):
         implementation=None,
         **kwargs,
     ):
-        super(CastemBeamElement, self).__init__(
+        super().__init__(
             nodes=nodes,
             section=section,
             frame=frame,
@@ -132,10 +115,6 @@ class CastemBeamElement(BeamElement):
 
         self._type_element = type_element  # type element de maillage
         self._type = type
-
-        # self._interpolation = interpolation
-        # self._hybrid = hybrid
-        # self._elset = None
         self._orientation = frame  # FIXME this is useless
 
     def jobdata(self):
@@ -143,18 +122,6 @@ class CastemBeamElement(BeamElement):
             return jobdata(self)
         else:
             raise NotImplementedError
-
-
-class OpenseesTrussElement(TrussElement):
-    """A 1D element that resists axial loads."""
-
-    __doc__ += TrussElement.__doc__
-
-    def __init__(self, nodes, section, **kwargs):
-        super(OpenseesTrussElement, self).__init__(nodes=nodes, section=section, **kwargs)
-
-    def jobdata(self):
-        return f"element Truss {self.key} {self.nodes[0].key} {self.nodes[1].key} {self.section.A} {self.section.material.key}"
 
 
 # ==============================================================================
@@ -172,22 +139,16 @@ class CastemShellElement(ShellElement):
     ---------------------
     COQ3 mode / TRI3 element :
         3-node triangular elements for thin shell with Kirchhoff-Love hypothesis.
-    
     COQ4 mode / QUA4 element :
         4-node quadrangular elements for thin shell with shear.
-
     COQ6 mode / TRI6 element :
         6-node triangular element, thick shell with Mindlin-Reissner hypothesis
-
     COQ8 mode /QUA8 element :
         8-node quadrangular element, thick shell with Mindlin-Reissner hypothesis and curved sides
-
     DKT mode / TRI3 element :
         3-node triangular elements for thin shell (Discrete Kirchhoff Triangle)
-
     DST mode / TRI3 :
         3-node triangular elements for thick shell ( Discrete Shear Triangle)
-
 
     Notes
     -----
@@ -219,16 +180,6 @@ class CastemShellElement(ShellElement):
             return jobdata(self)
         else:
             raise NotImplementedError
-
-
-class OpenseesMembraneElement(MembraneElement):
-    """"""
-
-    __doc__ += MembraneElement.__doc__
-
-    def __init__(self, nodes, section, **kwargs):
-        super(OpenseesMembraneElement, self).__init__(nodes=nodes, section=section, **kwargs)
-        raise NotImplementedError
 
 
 # ==============================================================================
@@ -278,18 +229,8 @@ class _CastemElement3D(_Element3D):
             raise NotImplementedError
 
 
-# TODO double inheritance from _OpenseesElement3D
 class CastemTetrahedronElement(TetrahedronElement, _CastemElement3D):
-    """Opensees implementation of :class:`TetrahedronElement`
-
-    Note
-    ----
-    For more information check here:
-
-        - https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/FourNodeTetrahedron.html
-        - https://opensees.github.io/OpenSeesDocumentation/user/manual/model/elements/TenNodeTetrahedron.html#tennodetetrahedron
-
-    """
+    """Castem implementation of :class:`TetrahedronElement`"""
 
     __doc__ += TetrahedronElement.__doc__
     __doc__ += """
@@ -317,9 +258,3 @@ class CastemTetrahedronElement(TetrahedronElement, _CastemElement3D):
             return jobdata(self)
         else:
             raise ValueError("A solid element with {} nodes cannot be created.".format(len(self.nodes)))
-
-    # def _FourNode(self):
-    #     return f"element FourNodeTetrahedron {self.key} {' '.join(str(n.key) for n in self.nodes)} {self.section.material.key + 1000}"
-
-    # def _TenNode(self):
-    #     raise NotImplementedError

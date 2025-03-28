@@ -7,7 +7,7 @@ class CastemNode(Node):
     __doc__ += Node.__doc__
 
     def __init__(self, xyz, mass=None, **kwargs):
-        super(CastemNode, self).__init__(xyz=xyz, mass=mass, **kwargs)
+        super().__init__(xyz=xyz, mass=mass, **kwargs)
 
     def jobdata(self):
         # FIXME: the approximation on the floating point is not correct
@@ -19,8 +19,4 @@ ID = DIME TABPOINTS.KEY;
 TABPOINTS.KEY.ID = {self.key};
 TABPOINTS.POINT.ID = N{self.key};
 """
-        # if any(self.mass):
-        #     mass = " -mass " + " ".join(["{:>15.8f}".format(m) for m in self.mass])
-        # else:
-        #     mass = ""
         return coordinates + tabpoints_data  # + mass

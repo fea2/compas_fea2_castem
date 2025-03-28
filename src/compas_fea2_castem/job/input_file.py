@@ -2,7 +2,6 @@ from datetime import datetime
 
 import compas_fea2
 from compas_fea2.job import InputFile
-from compas_fea2.job import ParametersFile
 
 import compas_fea2_castem
 
@@ -25,12 +24,12 @@ class CastemInputFile(InputFile):
         Final input file text data that will be written in the .dgibi file.
     """
 
-    def __init__(self, **kwargs):
-        super(CastemInputFile, self).__init__(**kwargs)
+    def __init__(self, problem, **kwargs):
+        super().__init__(problem, **kwargs)
         self._extension = "dgibi"
         self.procedures = f"""
 *post-treatment procedure creating a table contening the key and corresponding results of a node
-*entry : champs par point des résultats 
+*entry : champs par point des résultats
 DEBP CHPOTAB CHOUT*'CHPOINT' LCOMP*'LISTMOTS' TABPO*'TABLE';
     NMOT = DIME LCOMP;
     TABO =  VIDE 'TABU' ((MOTS 'KEY') ET LCOMP) 'LISTENTI'*1 'LISTREEL'*NMOT;
@@ -38,7 +37,7 @@ DEBP CHPOTAB CHOUT*'CHPOINT' LCOMP*'LISTMOTS' TABPO*'TABLE';
     TABM = TABLE;
     REPETER BOUCM NMOT;
         TABM.(&BOUCM) = EXTR LCOMP &BOUCM;
-    FIN BOUCM; 
+    FIN BOUCM;
 
     NPOINT = DIME TABPO.POINT;
     REPETER BOUC1 (NPOINT);
@@ -55,7 +54,7 @@ FINP TABO;
 
 DEBP SFTAB CHCONT*'MCHAML' TABEL*'TABLE';
 *initialization of the output table
-    TABO =  VIDE 'TABU' (MOTS 'KEY' 'FX1' 'FY1' 'FZ1' 'MX1' 'MY1' 'MZ1' 
+    TABO =  VIDE 'TABU' (MOTS 'KEY' 'FX1' 'FY1' 'FZ1' 'MX1' 'MY1' 'MZ1'
     'FX2' 'FY2' 'FZ2' 'MX2' 'MY2' 'MZ2') 'LISTENTI'*1 'LISTREEL'*12;
 
 *the values are extracted element by element
@@ -104,16 +103,16 @@ DEBP STRESSTAB CHCONT*'MCHAML';
     LCOMP = EXTR CHCONT COMP;
     NBPART = {len(self.model.parts)};
     NMOT = DIME LCOMP;
-    
+
     TABO =  VIDE 'TABU' ((MOTS 'KEY') ET LCOMP) 'LISTENTI'*1 'LISTREEL'*NMOT;
 
     TABM = TABLE;
     REPETER BOUCM NMOT;
         TABM.(&BOUCM) = EXTR LCOMP &BOUCM;
-    FIN BOUCM; 
+    FIN BOUCM;
 
     REPE BOUC1 NBPART;
-        
+
         NELE = DIME TABELE.(&BOUC1-1).ELE;
         REPE BOUC2 NELE;
             KEYi = TABELE.(&BOUC1-1).KEY.(&BOUC2-1);
@@ -185,12 +184,3 @@ FINP TABO;
 {self.problem.jobdata()}
 FIN;
 """
-
-
-class CastemParametersFile(ParametersFile):
-    """"""
-
-    def __init__(self, name=None, **kwargs):
-        super(CastemParametersFile, self).__init__(name, **kwargs)
-        self._extension = "par"
-        raise NotImplementedError

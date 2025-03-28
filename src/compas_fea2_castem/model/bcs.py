@@ -23,12 +23,9 @@ dofs = ["x", "y", "z", "xx", "yy", "zz"]
 
 def _jobdata(bc, nodes):
     castem_dofs = {"x": "UX", "y": "UY", "z": "UZ", "xx": "RX", "yy": "RY", "zz": "RZ"}
-    mdl_dofs = []
-    for dof in dofs:
-        if getattr(bc, dof):
-            mdl_dofs.append(castem_dofs[dof])
-
-    return "\n".join(["CLTOT= CLTOT ET (BLOQ {0} N{1}) ;".format(" ".join([castem_dof for castem_dof in mdl_dofs]), node.key) for node in nodes])
+    active_dofs = [castem_dofs[dof] for dof in dofs if getattr(bc, dof)]
+    dof_string = " ".join(active_dofs)
+    return "\n".join(f"CLTOT= CLTOT ET (BLOQ {dof_string} N{node.key}) ;" for node in nodes)
 
 
 class CastemGeneralBC(GeneralBC):
@@ -37,7 +34,7 @@ class CastemGeneralBC(GeneralBC):
     __doc__ += GeneralBC.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemGeneralBC, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -49,7 +46,7 @@ class CastemFixedBC(FixedBC):
     __doc__ += FixedBC.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemFixedBC, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -61,7 +58,7 @@ class CastemFixedBCX(FixedBCX):
     __doc__ += FixedBCX.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemFixedBCX, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -73,7 +70,7 @@ class CastemFixedBCY(FixedBCY):
     __doc__ += FixedBCY.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemFixedBCY, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -85,7 +82,7 @@ class CastemFixedBCZ(FixedBCZ):
     __doc__ += FixedBCZ.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemFixedBCZ, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -97,7 +94,7 @@ class CastemPinnedBC(PinnedBC):
     __doc__ += PinnedBC.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemPinnedBC, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -109,7 +106,7 @@ class CastemClampBCXX(ClampBCXX):
     __doc__ += ClampBCXX.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemClampBCXX, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -121,7 +118,7 @@ class CastemClampBCYY(ClampBCYY):
     __doc__ += ClampBCYY.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemClampBCYY, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -133,7 +130,7 @@ class CastemClampBCZZ(ClampBCZZ):
     __doc__ += ClampBCZZ.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemClampBCZZ, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -145,7 +142,7 @@ class CastemRollerBCX(RollerBCX):
     __doc__ += RollerBCX.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemRollerBCX, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -157,7 +154,7 @@ class CastemRollerBCY(RollerBCY):
     __doc__ += RollerBCY.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemRollerBCY, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -169,7 +166,7 @@ class CastemRollerBCZ(RollerBCZ):
     __doc__ += RollerBCZ.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemRollerBCZ, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -181,7 +178,7 @@ class CastemRollerBCXY(RollerBCXY):
     __doc__ += RollerBCXY.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemRollerBCXY, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)
@@ -205,7 +202,7 @@ class CastemRollerBCXZ(RollerBCXZ):
     __doc__ += RollerBCXZ.__doc__
 
     def __init__(self, **kwargs):
-        super(CastemRollerBCXZ, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def jobdata(self, nodes):
         return _jobdata(self, nodes)

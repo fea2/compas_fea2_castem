@@ -1,7 +1,13 @@
-# Castem Models
-from .nodes import CastemNode
-from .model import CastemModel  # noqa: F401
+# Castem model
+from .model import CastemModel
+
+# Castem parts
 from .parts import CastemPart
+
+# Castem nodes
+from .nodes import CastemNode
+
+# Castem bcs
 from .bcs import (
     CastemClampBCXX,
     CastemClampBCYY,
@@ -21,13 +27,24 @@ from .bcs import (
 )
 
 # Castem Element
-from .elements import CastemBeamElement, CastemShellElement, _CastemElement3D, CastemTetrahedronElement
+from .elements import (
+    CastemBeamElement,
+    CastemShellElement,
+    _CastemElement3D,
+    CastemTetrahedronElement,
+)
 
 # Castem Materials
-from .materials import CastemElasticIsotropic
+from .materials import (
+    CastemElasticIsotropic,
+)
 
 # Castem Section
-from .sections import CastemRectangularSection, CastemShellSection, CastemSolidSection
+from .sections import (
+    CastemRectangularSection,
+    CastemShellSection,
+    CastemSolidSection,
+)
 
 # Castem connectors
 from .connectors import CastemRigidLinkConnector

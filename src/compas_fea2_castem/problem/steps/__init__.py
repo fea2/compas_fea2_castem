@@ -1,3 +1,5 @@
 from .static import CastemStaticStep
 
-__all__ = [CastemStaticStep]
+__all__ = [
+    "CastemStaticStep",
+]
