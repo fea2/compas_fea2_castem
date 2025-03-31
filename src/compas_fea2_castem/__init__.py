@@ -45,6 +45,9 @@ from compas_fea2.model.sections import (
 from compas_fea2.model.materials.material import (
     ElasticIsotropic,
 )
+from compas_fea2.model.materials.steel import (
+    Steel,
+)
 
 # Connectors
 from compas_fea2.model.connectors import (
@@ -75,9 +78,7 @@ from compas_fea2.model.bcs import (
 from compas_fea2.problem import Problem
 
 # Steps
-from compas_fea2.problem.steps import (
-    StaticStep,
-)
+from compas_fea2.problem.steps import StaticStep, ModalAnalysis
 
 # Loads
 from compas_fea2.problem.loads import (
@@ -139,12 +140,15 @@ try:
         CastemSolidSection,
     )
 
-    # # Opensees Materials
+    # # Castem Materials
     from .model.materials.material import (
         CastemElasticIsotropic,
     )
+    from .model.materials.steel import (
+        CastemSteel,
+    )
 
-    # Opensees Connectors
+    # Castem Connectors
     from .model.connectors import (
         CastemRigidLinkConnector,
     )
@@ -172,9 +176,7 @@ try:
     from .problem import CastemProblem
 
     # Castem Steps
-    from .problem.steps import (
-        CastemStaticStep,
-    )
+    from .problem.steps import CastemStaticStep, CastemModalAnalysis
 
     # Castem Loads
     from .problem.loads import (
@@ -194,7 +196,7 @@ try:
         CastemSectionForcesFieldResults,
     )
 
-    # # Opensees Input File
+    # # Castem Input File
     from .job import (
         CastemInputFile,
     )
@@ -224,6 +226,7 @@ try:
         backend[SolidSection] = CastemSolidSection
 
         backend[ElasticIsotropic] = CastemElasticIsotropic
+        backend[Steel] = CastemSteel
 
         backend[RigidLinkConnector] = CastemRigidLinkConnector
 
@@ -246,6 +249,7 @@ try:
         backend[Problem] = CastemProblem
 
         backend[StaticStep] = CastemStaticStep
+        backend[ModalAnalysis] = CastemModalAnalysis
 
         backend[ConcentratedLoad] = CastemConcentratedLoad
 

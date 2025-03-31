@@ -35,9 +35,7 @@ from .elements import (
 )
 
 # Castem Materials
-from .materials import (
-    CastemElasticIsotropic,
-)
+from .materials import CastemElasticIsotropic, CastemSteel
 
 # Castem Section
 from .sections import (
@@ -72,6 +70,7 @@ __all__ = [
     "CastemBeamElement",
     "CastemShellElement",
     "CastemElasticIsotropic",
+    "CastemSteel",
     "CastemRectangularSection",
     "CastemShellSection",
     "CastemSolidSection",

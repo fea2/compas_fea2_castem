@@ -31,6 +31,7 @@ TABELE.({2}).KEY = TABLE;
 TABELE.({2}).ELE = TABLE;
 
 {3}
+
 ***
 """.format(
         obj.name, _generate_nodes_section(obj), obj.key, _generate_elements_section(obj) or "***"
@@ -65,6 +66,7 @@ TABELE.({obj.key}).KEY.ID = {element.jobdata()[0]};
 TABELE.({obj.key}).ELE.ID = E{element.jobdata()[0]};
 """
                         )
+
                     # Write material and section per group of elements
                     part_data.append("\n***       >Creation du materiau associe au groupe d elements")
                     part_data.append(
@@ -91,6 +93,7 @@ TABELE.({obj.key}).ELE.ID = E{element.jobdata()[0]};
                         part_data.append("MATTOT = MATTOT ET MAT{0}{1} ET CARA{0}{1};".format(obj.key, section.key))
                     else:
                         part_data.append("MATTOT = MATTOT ET MAT{0}{1};".format(obj.key, section.key))
+                    part_data.append("MAILTOT = MAILTOT ET MAIL{0}{1};".format(obj.key, section.key))
 
     else:
         for implementation, elements in grouped_elements.items():
@@ -230,6 +233,7 @@ TABELE.({self.key}).ELE = TABLE;
                             part_data.append("MATTOT = MATTOT ET MAT{0}{1} ET CARA{0}{1};".format(self.key, section.key))
                         else:
                             part_data.append("MATTOT = MATTOT ET MAT{0}{1};".format(self.key, section.key))
+                        part_data.append("MAILTOT = MAILTOT ET MAIL{0}{1};".format(self.key, section.key))
 
         else:
             for implementation, elements in grouped_elements.items():

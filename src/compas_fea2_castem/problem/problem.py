@@ -1,8 +1,91 @@
+import os
 import sqlite3
 
 from compas_fea2.problem import Problem
 from compas_fea2.utilities._utils import launch_process
 from compas_fea2.utilities._utils import timer
+
+import compas_fea2_castem
+
+
+def process_modal_shapes(connection, step):
+    problem_path = step.problem.path
+    model = step.model
+
+    eigenvalues = []
+    with open(os.path.join(problem_path, "eigenvalues.csv"), "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            eigenvalues.append(line.split())
+        eigenvalues = eigenvalues[1:]
+
+    eigenvectors = []
+    with open(os.path.join(problem_path, "eigenvectors.csv"), "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            eigenvectors.append(line.split())
+        eigenvectors = eigenvectors[1:]
+
+    cursor = connection.cursor()
+
+    # Create table for eigenvalues
+    cursor.execute(
+        """
+    CREATE TABLE IF NOT EXISTS eigenvalues (
+        id INTEGER PRIMARY KEY,
+        step TEXT,
+        mode INTEGER,
+        lambda REAL,
+        omega REAL,
+        freq REAL,
+        period REAL
+        )
+    """
+    )
+
+    # Insert eigenvalues into the database
+    for eigenvalue in eigenvalues:
+        cursor.execute(
+            """
+        INSERT INTO eigenvalues (step, mode, lambda, omega, freq, period)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+            [step.name] + eigenvalue,
+        )
+    connection.commit()
+
+    for i, eigenvector in enumerate(eigenvectors):
+        if len(eigenvector) < 8:
+            eigenvector = eigenvector + [0.0] * (8 - len(eigenvector))
+        node = model.find_node_by_key(int(eigenvector[1]))[0]
+        eigenvectors[i] = [eigenvector[0], step.name, node.part.name, node.key] + eigenvector[2:]
+
+    # Create table for modal shapes
+    cursor.execute(
+        f"""
+    CREATE TABLE IF NOT EXISTS eigenvectors (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        mode INTEGER,
+        step TEXT,
+        part TEXT,
+        key INTEGER,
+        {",\n".join([f"{c} REAL" for c in ["x", "y", "z", "xx", "yy", "zz"]])}
+        )
+    """
+    )
+    # Insert modal shape data into the database
+    for eigenvector in eigenvectors:
+        cursor.execute(
+            f"""
+        INSERT INTO eigenvectors (mode, step, part, key, {", ".join([c for c in ["x", "y", "z", "xx", "yy", "zz"]])})
+        VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?, ?)
+        """,
+            eigenvector,
+        )
+
+    connection.commit()
+
+    print(f"Modal shapes and eigenvalues successfully saved to {problem_path}")
 
 
 class CastemProblem(Problem):
@@ -116,15 +199,15 @@ class CastemProblem(Problem):
         None
 
         """
-        print("Extracting data from Castem .inp files...")
-        from ..results.results_to_sql import read_results_file
-
+        print("Extracting data from Castem .csv files...")
         # FIXME use the ResultsDatabase class
         connection = sqlite3.connect(self.path_db)
 
         for step in self.steps:
+            if isinstance(step, compas_fea2_castem.CastemModalAnalysis):
+                process_modal_shapes(connection, step)
             for field_output in step.field_outputs:
-                read_results_file(connection, field_output)
+                field_output.extract_results()
         connection.close()
         print("Results extraction completed!")
 

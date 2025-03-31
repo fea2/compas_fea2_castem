@@ -29,7 +29,7 @@ class CastemSteel(Steel):
         super(CastemSteel, self).__init__(fy=fy, fu=fu, eu=eu, E=E, v=v, density=density, **kwargs)
         self._H = (self.fu - self.fy) / self.ep
         self.mod = "MECANIQUE ELASTIQUE PLASTIQUE CINEMATIQUE"
-        self.mate = f"SIGMy {fy} H {self.module} "
+        self.mate = f"'YOUN' {self.E} 'NU' {self.v} 'RHO' {self.density} SIGY {fy} H {self.H} "
         self.complementary_line = None
 
     @property

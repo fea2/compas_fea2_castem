@@ -18,7 +18,7 @@ SORT 'EXCE' TAB{field_name} 'SEPA' 'ESPA';
 
 def _extract_results(obj):
     """
-    Read the .out results file and convert it to a dictionary.
+    Read the .csv results file and convert it to a dictionary.
 
     Parameters
     ----------
@@ -31,27 +31,27 @@ def _extract_results(obj):
     """
 
     results = []
-    with open(os.path.join(obj.problem_path, f"{obj.field_name}.csv"), "r") as f:
+    with open(os.path.join(obj.problem.path, f"{obj.field_name}.csv"), "r") as f:
         # remove the first line of names of columns
         lines = f.readlines()[1:]
         for line in lines:
             columns = line.split()
             input_key = int(columns[0])  # Convert the first column to int
-            member = getattr(obj.model, obj.field_output.results_func)(input_key)[0]
+            member = getattr(obj.model, obj.results_func)(input_key)[0]
             values = list(map(lambda x: round(float(x), 6), columns[1:]))
             if not values:
                 continue
 
-            if len(values) < len(obj.field_output.components_names):
-                values = values + [0.0] * (len(obj.field_output.components_names) - len(values))
-            elif len(values) > len(obj.field_output.components_names):
-                values = values[: len(obj.field_output.components_names)]
+            if len(values) < len(obj.components_names):
+                values = values + [0.0] * (len(obj.components_names) - len(values))
+            elif len(values) > len(obj.components_names):
+                values = values[: len(obj.components_names)]
             else:
                 values = values
 
             results.append([member.key] + [obj.step.name, member.part.name] + values)
 
-    obj.field_output.create_sql_table(results)
+    obj.create_sql_table(results)
 
 
 class CastemDisplacementFieldResults(DisplacementFieldResults):
