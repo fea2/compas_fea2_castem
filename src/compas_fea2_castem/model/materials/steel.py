@@ -22,6 +22,7 @@ class CastemSteel(Steel):
     Nota CASTEM
     -----------
     The elasto-plastic model used is isotrop with cinematic hardening.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=mate#MECANIQUE%20ELASTO-PLASTIQUE16
     
     """
 

@@ -2,7 +2,7 @@
 from .model import CastemModel
 
 # Castem parts
-from .parts import CastemPart
+from .parts import CastemPart, CastemRigidPart
 
 # Castem nodes
 from .nodes import CastemNode
@@ -47,11 +47,18 @@ from .sections import (
 # Castem connectors
 from .connectors import CastemRigidLinkConnector
 
+# Castem interface
+from .interfaces import CastemInterface
+
+# Castem interaction
+from .interactions import CastemLinearContactFrictionPenalty
+
 
 __all__ = [
     "CastemNode",
     "CastemModel",
     "CastemPart",
+    "CastemRigidPart",
     "CastemClampBCXX",
     "CastemClampBCYY",
     "CastemClampBCZZ",
@@ -77,4 +84,6 @@ __all__ = [
     "CastemRigidLinkConnector",
     "_CastemElement3D",
     "CastemTetrahedronElement",
+    "CastemInterface",
+    "CastemLinearContactFrictionPenalty",
 ]

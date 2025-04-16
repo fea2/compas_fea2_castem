@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from compas_fea2.problem.steps import BucklingAnalysis
 from compas_fea2.problem.steps import ModalAnalysis
 
 
@@ -100,4 +101,48 @@ FIN BOUC1;
 OPTI SORT '{self.problem.path}\\eigenvectors';
 SORT  'EXCE' TABEIGVEC 'SEPA' 'ESPA';
 
+"""
+
+
+class CastemBucklingAnalysis(BucklingAnalysis):
+    # buckling can't be done without doing a static analysis before ??
+    """"""
+
+    def __init__(self, **kwargs):
+        super(CastemBucklingAnalysis, self).__init__(**kwargs)
+
+    def jobdata(self):
+        return f"""
+{self._generate_header_section()}
+* buckling
+* - Analysis Parameters
+*   -------------------
+{self._generate_analysis_section()}
+*
+* - Output Results
+*   --------------
+{self._generate_output_section()}
+*
+"""
+
+    def _generate_header_section(self):
+        return f"""*
+* STEP {self.name}
+*"""
+
+    def _generate_analysis_section(self):
+        return f"""*
+TAB2 = TABLE;
+TAB2.'OBJM' = MODTOT;
+TAB2.'LAM1' = 0.01;
+TAB2.'LAM2' = 100.;
+TAB2.'NMOD' = {self.modes};
+TAB2.'CLIM' = CLTOT;
+TAB2.'SIG1' = TAB3.CONTRAINTES.(NCONTRAINTES-1); 
+TAB2.'MATE' = MATTOT;
+
+"""
+
+    def _generate_output_section(self):
+        return """*
 """

@@ -2,7 +2,14 @@ from compas_fea2.model import Node
 
 
 class CastemNode(Node):
-    """Castem implementation of the :class:`Node`. \n"""
+    """Castem implementation of the :class:`Node`.
+
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=POIN
+
+    The name of Cast3M objects must begin with a letter, hence the N letter.
+
+
+    \n"""
 
     __doc__ += Node.__doc__
 

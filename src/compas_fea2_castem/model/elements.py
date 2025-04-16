@@ -43,20 +43,17 @@ class CastemLinkElement(LinkElement):
         super(CastemLinkElement, self).__init__(nodes=nodes, **kwargs)
 
     def jobdata(self):
-        return_l = []
-        return_l.append("LINKNODS = VIDE MAILLAGE;")
-        for i in range(len(self.nodes)):
-            return_l.append(f"LINKNODS = LINKNODS ET N{self.nodes[i].key};")
-        return_l.append("RIGILINK = RIGILINK ET (RELA 'ENSE' )")
-        return f"""
-LINKNODS = VIDE MAILLAGE;
-REPE BOUC1 {len(self.nodes)};
-    LINKNODS = LINKNODS ET N{self.key};
+        return f""" 
+LINK{self.key}X = RELA UX N{self.nodes[0].key} - UX N{self.nodes[-1].key};
+LINK{self.key}Y = RELA UY N{self.nodes[0].key} - UY N{self.nodes[-1].key};
+LINK{self.key}Z = RELA UZ N{self.nodes[0].key} - UZ N{self.nodes[-1].key};
+LINK{self.key}RX = RELA RX N{self.nodes[0].key} - RX N{self.nodes[-1].key};
+LINK{self.key}RY = RELA RY N{self.nodes[0].key} - RY N{self.nodes[-1].key};
+LINK{self.key}RZ = RELA RZ N{self.nodes[0].key} - RZ N{self.nodes[-1].key};
+LINK{self.key}TOT = LINK{self.key}X ET LINK{self.key}Y ET LINK{self.key}Z
+ET LINK{self.key}RX ET LINK{self.key}RY ET LINK{self.key}RZ;
 
-
-                f"element twoNodeLink {self.key} {self.nodes[0].key} {self.nodes[-1].key} "
-                f"-mat {self.section.material.key} {self.section.material.key} {self.section.material.key} "
-                f"-dir 1 2 3 4 5 6"
+LINKTOT = LINKTOT ET LINK{self.key}TOT;
 """
 
 
@@ -72,15 +69,9 @@ class CastemBeamElement(BeamElement):
     ---------------------
     type : str, optional
         Name of the implementation model.
-    iterpolation : int, optional
-        Number of interpolation points, from 1 to 3, by default 1.
-    hybrid : bool, optional
-        Use hybrid formulation, by default `False`. [WIP]
-    implementation : str, optional
-        Name of the implementation model to be used, by default `None`. This can
-        be used alternatively to the `type`, `interpolation` and `hybrid` parameters
-        to directly define the model to be used. If both are specified, the
-        `implementation` overwrites the others.
+    
+    type_element : str, optional
+        Name of mess element
 
     Note
     ----
@@ -187,16 +178,9 @@ class CastemShellElement(ShellElement):
 
 
 class _CastemElement3D(_Element3D):
-    """"""
+    """CASTEM implementation of a :class:`_Element3D`."""
 
     __doc__ += _Element3D.__doc__
-    __doc__ += """
-    Additional Parameters
-    ---------------------
-    mat_behaviour : str
-        String representing material behavior. It can be either “PlaneStrain” or “PlaneStress.”
-
-    """
 
     def __init__(self, nodes, section, implementation=None, **kwargs):
         super(_CastemElement3D, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
@@ -232,22 +216,6 @@ class CastemTetrahedronElement(TetrahedronElement, _CastemElement3D):
     """Castem implementation of :class:`TetrahedronElement`"""
 
     __doc__ += TetrahedronElement.__doc__
-    __doc__ += """
-    Additional Parameters
-    ---------------------
-    reduced : bool, optional
-        Reduce the integration points, by default ``False``.
-    hybrid : bool, optional
-        Use hybrid formulation, by default ``False``.
-    optional : str, optional
-        String with additional optional parameters, by default `None`.
-    implementation : str, optional
-        Name of the implementation model to be used, by default `None`. This can
-        be used alternatively to the `type`, `reduced`, `optional` and `warping parameters
-        to directly define the model to be used. If both are specified, the
-        `implementation` overwrites the others.
-
-    """
 
     def __init__(self, nodes, section=None, implementation=None, **kwargs):
         super(CastemTetrahedronElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)

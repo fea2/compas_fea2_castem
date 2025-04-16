@@ -1,71 +1,14 @@
+import compas_fea2
 from compas_fea2.problem.steps import StaticStep
 
 
 class CastemStaticStep(StaticStep):
     """
-    Opensees implementation of the :class:`LinearStaticStep`.
+    Castem implementation of the :class:`StaticStep`.
 
-    Opensees Parameters
+    Castem Parameters
     -------------------
-    max_increments : int, optional
-        Maximum number of increments (default is 1).
-    initial_inc_size : float, optional
-        Initial increment size (default is 1).
-    min_inc_size : float, optional
-        Minimum increment size (default is 0.00001).
-    constraint : str, optional
-        Constraint handler (default is "Transformation").
-        Possible values:
-        - "Transformation": Suitable for most problems, handles constraints by transforming the system of equations.
-        - "Plain": Simple constraint handler, suitable for small problems.
-        - "Lagrange": Uses Lagrange multipliers, suitable for problems with multiple constraints.
-        - "Penalty": Uses penalty method, suitable for problems where constraints need to be enforced strictly.
-    numberer : str, optional
-        Numberer (default is "RCM").
-        Possible values:
-        - "RCM": Reverse Cuthill-McKee, suitable for reducing bandwidth of the system matrix.
-        - "Plain": Simple numberer, suitable for small problems.
-    system : str, optional
-        System of equations solver (default is "BandGeneral").
-        Possible values:
-        - "BandGeneral": General band solver, suitable for most problems.
-        - "ProfileSPD": Profile solver for symmetric positive definite matrices, suitable for specific problems.
-        - "SuperLU": Direct solver using SuperLU, suitable for large sparse systems.
-        - "UmfPack": Direct solver using UMFPACK, suitable for large sparse systems.
-    test : str, optional
-        Convergence test (default is "NormDispIncr 1.0e-6, 10").
-        Possible values:
-        - "NormDispIncr": Checks norm of displacement increments, suitable for most problems.
-        - "NormUnbalance": Checks norm of unbalanced forces, suitable for problems with force convergence criteria.
-        - "NormDispAndUnbalance": Checks both displacement increments and unbalanced forces, suitable for strict convergence criteria.
-    integrator : str, optional
-        Integrator (default is "LoadControl").
-        Possible values:
-        - "LoadControl": Suitable for load-controlled problems.
-        - "DisplacementControl": Suitable for displacement-controlled problems.
-        - "ArcLength": Suitable for problems with snap-through or snap-back behavior.
-    analysis : str, optional
-        Analysis type (default is "Static").
-        Possible values:
-        - "Static": Suitable for static analysis.
-        - "Transient": Suitable for transient analysis.
-    time : float, optional
-        Total time of the step (default is 1).
-    nlgeom : bool, optional
-        Nonlinear geometry flag (default is False).
-    modify : bool, optional
-        Modify flag (default is True).
-    algorithm : str, optional
-        Solution algorithm (default is "Newton").
-        Possible values:
-        - "Newton": Standard Newton-Raphson method, suitable for most problems.
-        - "ModifiedNewton": Modified Newton-Raphson method, suitable for problems with convergence issues.
-        - "BFGS": Broyden-Fletcher-Goldfarb-Shanno method, suitable for large-scale optimization problems.
-        - "KrylovNewton": Krylov-Newton method, suitable for large sparse systems.
-        - "SecantNewton": Secant-Newton method, suitable for problems with non-smooth behavior.
-        - "PeriodicNewton": Periodic Newton-Raphson method, suitable for periodic problems.
-    name : str, optional
-        Name of the step.
+    max_increments
     """
 
     __doc__ += StaticStep.__doc__
@@ -80,6 +23,7 @@ class CastemStaticStep(StaticStep):
         modify=False,
         t_under_inc=0.1,
         max_under_increments=10,
+        load_step=1,
         **kwargs,
     ):
         super().__init__(
@@ -93,6 +37,7 @@ class CastemStaticStep(StaticStep):
         )
         self.t_under_inc = t_under_inc
         self.max_under_increments = max_under_increments
+        self.load_step = load_step
 
     # TODO : bug
     # TCAL = PROG 0. 'PAS' {self.t_under_inc} {self.time}; > self.time is False and not egal to 1....
@@ -100,35 +45,42 @@ class CastemStaticStep(StaticStep):
     def jobdata(self):
         return f"""***
 {self._generate_header_section()}
-*** - Displacements
-***   -------------
-{self._generate_displacements_section()}
+
 ***
-*** - Loads
-***   -------------
-*** Evolution definition
+*** - LOADS
+***   -------------------
+*** Evolution of loading
 TCAL = PROG 0. 'PAS' {self.t_under_inc} 1.;
 TSAUV = PROG 0. 'PAS' {self.t_under_inc} 1.;
 
-LISTEMP = PROG 0. 1.;
-LISC = PROG 0. 1.;
+LISTEMP = PROG 0. 'PAS' 1. {int(1 / self.load_step)};
+LISC = PROG 0. 'PAS' {self.load_step} 1.;
 EVOLC = EVOL MANU 'TIME' LISTEMP 'CHARGE' LISC;
 
 CHARTOT = VIDE 'CHARGEME';
-{self._generate_loads_section()}
 ***
+*** - Displacements
+***   -------------
+
+{self._generate_loads_displacement_section()}
+***
+*** - Loads
+***   -------------
+***
+{self._generate_fields_section()}
+
+
 *** - Predefined Fields
 ***   -----------------
-{self._generate_fields_section()}
 ***
 ***
 *** - ANALYSIS
 ***   -------------------
 ***
 TAB3 = TABLE ;
-TAB3.MODELE = MODTOT;
-TAB3.CARACTERISTIQUES = MATTOT;
-TAB3.BLOCAGES_MECANIQUES = CLTOT ET CONTOT;
+TAB3.MODELE = MODTOT ET MODJTOT;
+TAB3.CARACTERISTIQUES = MATTOT ET MATJTOT;
+TAB3.BLOCAGES_MECANIQUES = CLTOT ET CONTOT ET CRIGTOT;
 TAB3.CHARGEMENT = CHARTOT;
 TAB3.TEMPS_SAUVES = TSAUV;
 TAB3.TEMPS_CALCULES = TCAL;
@@ -155,6 +107,16 @@ PASAPAS TAB3;
 
     def _generate_displacements_section(self):
         return "***"
+
+    def _generate_loads_displacement_section(self):
+        field_data = []
+        for field in self.load_fields:
+            if isinstance(field, compas_fea2.problem.DisplacementField):
+                field_data.append(field.jobdata())
+            else:
+                field_data.append(self.combination.jobdata())
+
+        return "\n".join(field_data)
 
     def _generate_loads_section(self):
         return self.combination.jobdata()

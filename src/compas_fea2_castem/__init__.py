@@ -16,7 +16,7 @@ import compas_fea2
 
 # Models
 from compas_fea2.model import Model
-from compas_fea2.model import Part
+from compas_fea2.model import Part, RigidPart
 from compas_fea2.model import Node
 
 # Elements
@@ -54,6 +54,13 @@ from compas_fea2.model.connectors import (
     RigidLinkConnector,
 )
 
+# Interface
+from compas_fea2.model.interfaces import (
+    Interface,
+)
+
+# Interaction
+from compas_fea2.model.interactions import LinearContactFrictionPenalty
 
 # Boundary Conditions
 from compas_fea2.model.bcs import (
@@ -81,9 +88,10 @@ from compas_fea2.problem import Problem
 from compas_fea2.problem.steps import StaticStep, ModalAnalysis
 
 # Loads
-from compas_fea2.problem.loads import (
-    ConcentratedLoad,
-)
+from compas_fea2.problem.loads import ConcentratedLoad, PressureLoad, GravityLoad
+
+# Fields
+from compas_fea2.problem.fields import NodeLoadField, GravityLoadField, DisplacementField
 
 # Displacements
 
@@ -115,7 +123,7 @@ from compas_fea2.job import (
 try:
     # Castem Models
     from .model import CastemModel
-    from .model import CastemPart
+    from .model import CastemPart, CastemRigidPart
     from .model import CastemNode
 
     # Castem Elements
@@ -153,6 +161,12 @@ try:
         CastemRigidLinkConnector,
     )
 
+    # Castem Interface
+    from .model.interfaces import CastemInterface
+
+    # Castem Interaction
+    from .model.interactions import CastemLinearContactFrictionPenalty
+
     # Castem Boundary Conditions
     from .model.bcs import (
         CastemGeneralBC,
@@ -179,9 +193,10 @@ try:
     from .problem.steps import CastemStaticStep, CastemModalAnalysis
 
     # Castem Loads
-    from .problem.loads import (
-        CastemConcentratedLoad,
-    )
+    from .problem.loads import CastemConcentratedLoad, CastemPressureLoad, CastemGravityLoad
+
+    # Castem Fields
+    from .problem.fields import CastemNodeLoadField, CastemDisplacementField, CastemGravityLoadField
 
     # Castem Combinations
     from .problem.combinations import (
@@ -207,6 +222,7 @@ try:
 
         backend[Model] = CastemModel
         backend[Part] = CastemPart
+        backend[RigidPart] = CastemRigidPart
         backend[Node] = CastemNode
 
         backend[LinkElement] = CastemLinkElement
@@ -230,6 +246,10 @@ try:
 
         backend[RigidLinkConnector] = CastemRigidLinkConnector
 
+        backend[Interface] = CastemInterface
+
+        backend[LinearContactFrictionPenalty] = CastemLinearContactFrictionPenalty
+
         backend[GeneralBC] = CastemGeneralBC
         backend[FixedBC] = CastemFixedBC
         backend[FixedBCX] = CastemFixedBCX
@@ -252,6 +272,12 @@ try:
         backend[ModalAnalysis] = CastemModalAnalysis
 
         backend[ConcentratedLoad] = CastemConcentratedLoad
+        backend[GravityLoad] = CastemGravityLoad
+        backend[PressureLoad] = CastemPressureLoad
+
+        backend[NodeLoadField] = CastemNodeLoadField
+        backend[DisplacementField] = CastemDisplacementField
+        backend[GravityLoadField] = CastemGravityLoadField
 
         backend[LoadCombination] = CastemLoadCombination
 

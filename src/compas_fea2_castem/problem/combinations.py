@@ -10,4 +10,6 @@ class CastemLoadCombination(LoadCombination):
         super().__init__(factors=factors, **kwargs)
 
     def jobdata(self):
+        # implementation with LoadField
+        # return ""
         return "\n".join([load.jobdata(node) for node, load in self.node_load])

@@ -9,8 +9,9 @@ from compas_fea2.model import ShellSection
 from compas_fea2.model import SolidSection
 
 
-def _jobdata(self):
-    return "SECT {0} INRY {1} INRZ {2} TORS {3} SECY {4} SECZ{5}".format(self.A, self.Ixx, self.Iyy, self.J, self.Avx, self.Avy)
+def _beam_jobdata(self):
+    """In Castem, the strong axis of inertia of the section is axis Y and the "weak" one is axis Z."""
+    return f"SECT {self.A} INRY {self.Iyy} INRZ {self.Ixx} TORS {self.J} SECY {self.Avy} SECZ {self.Avx}"
 
 
 # ==============================================================================
@@ -25,18 +26,12 @@ class CastemAngleSection(AngleSection):
     """Castem implementation of the :class:`BoxSection`.\n"""
 
     __doc__ += AngleSection.__doc__
-    __doc__ += """
-    Note
-    ----
-    The section properties are automatically computed by Abaqus.
-
-    """
 
     def __init__(self, w, h, t, material, **kwargs):
         super().__init__(w, h, t, material, **kwargs)
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 class CastemBoxSection(BoxSection):
@@ -48,30 +43,24 @@ class CastemBoxSection(BoxSection):
         super().__init__(self, w, h, t, material, **kwargs)
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 class CastemCircularSection(CircularSection):
-    """Abaqus implementation of the :class:`CircularSection`.\n"""
+    """Castem implementation of the :class:`CircularSection`.\n"""
 
     __doc__ += CircularSection.__doc__
-    __doc__ += """
-    Note
-    ----
-    The section properties are automatically computed by Abaqus.
-
-    """
 
     def __init__(self, r, material, **kwargs):
         super().__init__(r, material, **kwargs)
         self._properties = [r]
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 class CastemHexSection(HexSection):
-    """Abaqus implementation of the :class:`HexSection`.\n"""
+    """Castem implementation of the :class:`HexSection`.\n"""
 
     __doc__ += HexSection.__doc__
 
@@ -81,11 +70,11 @@ class CastemHexSection(HexSection):
         self.properties = [r, t]
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 class CastemISection(ISection):
-    """ """
+    """Castem implementation of the :class:`ISection`. \n"""
 
     __doc__ += ISection.__doc__
 
@@ -93,11 +82,11 @@ class CastemISection(ISection):
         super().__init__(w, h, tw, tbf, ttf, material, **kwargs)
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 class CastemPipeSection(PipeSection):
-    """Abaqus implementation of the :class:`PipeSection`.\n"""
+    """Castem implementation of the :class:`PipeSection`.\n"""
 
     __doc__ += PipeSection.__doc__
 
@@ -107,7 +96,7 @@ class CastemPipeSection(PipeSection):
         super().__init__(r, t, material, **kwarg)
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 class CastemRectangularSection(RectangularSection):
@@ -119,14 +108,14 @@ class CastemRectangularSection(RectangularSection):
         super().__init__(w=w, h=h, material=material, **kwargs)
 
     def jobdata(self):
-        return _jobdata(self)
+        return _beam_jobdata(self)
 
 
 # ==============================================================================
 # 2D
 # ==============================================================================
 class CastemShellSection(ShellSection):
-    """Abaqus implementation of the :class:`ShellSection`.\n"""
+    """Castem implementation of the :class:`ShellSection`.\n"""
 
     __doc__ += ShellSection.__doc__
     __doc__ += """
@@ -158,7 +147,8 @@ class CastemShellSection(ShellSection):
 # 3D
 # ==============================================================================
 class CastemSolidSection(SolidSection):
-    """Abaqus implementation of the :class:`SolidSection`.\n"""
+    """Castem implementation of the :class:`SolidSection`.
+    No specific parameters are needed in a solid model.\n"""
 
     __doc__ += SolidSection.__doc__
 
@@ -174,6 +164,5 @@ class CastemSolidSection(SolidSection):
 
         Returns
         -------
-        input file data line (str).
         """
-        pass
+        return None

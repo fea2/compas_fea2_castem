@@ -29,7 +29,12 @@ def _jobdata(bc, nodes):
 
 
 class CastemGeneralBC(GeneralBC):
-    """Castem implementation of :class:`compas_fea2.model.GeneralBC`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.GeneralBC`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+
+    \n"""
 
     __doc__ += GeneralBC.__doc__
 
@@ -41,7 +46,11 @@ class CastemGeneralBC(GeneralBC):
 
 
 class CastemFixedBC(FixedBC):
-    """Castem implementation of :class:`compas_fea2.model.FixedBC`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.FixedBC`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += FixedBC.__doc__
 
@@ -53,7 +62,11 @@ class CastemFixedBC(FixedBC):
 
 
 class CastemFixedBCX(FixedBCX):
-    """Castem implementation of :class:`compas_fea2.model.FixedBCX`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.FixedBCX`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += FixedBCX.__doc__
 
@@ -65,7 +78,11 @@ class CastemFixedBCX(FixedBCX):
 
 
 class CastemFixedBCY(FixedBCY):
-    """Castem implementation of :class:`compas_fea2.model.FixedBCY`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.FixedBCY`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += FixedBCY.__doc__
 
@@ -77,7 +94,11 @@ class CastemFixedBCY(FixedBCY):
 
 
 class CastemFixedBCZ(FixedBCZ):
-    """Castem implementation of :class:`compas_fea2.model.FixedBCZ`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.FixedBCZ`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += FixedBCZ.__doc__
 
@@ -89,7 +110,11 @@ class CastemFixedBCZ(FixedBCZ):
 
 
 class CastemPinnedBC(PinnedBC):
-    """Castem implementation of :class:`compas_fea2.model.PinnedBC`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.PinnedBC`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += PinnedBC.__doc__
 
@@ -101,7 +126,11 @@ class CastemPinnedBC(PinnedBC):
 
 
 class CastemClampBCXX(ClampBCXX):
-    """Castem implementation of :class:`compas_fea2.model.ClampBCXX`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.ClampBCXX`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += ClampBCXX.__doc__
 
@@ -113,7 +142,11 @@ class CastemClampBCXX(ClampBCXX):
 
 
 class CastemClampBCYY(ClampBCYY):
-    """Castem implementation of :class:`compas_fea2.model.ClampBCYY`.\n"""
+    """Castem implementation of :class:`compas_fea2.model.ClampBCYY`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += ClampBCYY.__doc__
 
@@ -125,7 +158,11 @@ class CastemClampBCYY(ClampBCYY):
 
 
 class CastemClampBCZZ(ClampBCZZ):
-    """Castem implementation of :class:`ClampBCZZ`.\n"""
+    """Castem implementation of :class:`ClampBCZZ`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += ClampBCZZ.__doc__
 
@@ -137,7 +174,11 @@ class CastemClampBCZZ(ClampBCZZ):
 
 
 class CastemRollerBCX(RollerBCX):
-    """Castem implementation of :class:`RollerBCX`.\n"""
+    """Castem implementation of :class:`RollerBCX`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += RollerBCX.__doc__
 
@@ -149,7 +190,11 @@ class CastemRollerBCX(RollerBCX):
 
 
 class CastemRollerBCY(RollerBCY):
-    """Castem implementation of :class:`RollerBCY`.\n"""
+    """Castem implementation of :class:`RollerBCY`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += RollerBCY.__doc__
 
@@ -161,7 +206,11 @@ class CastemRollerBCY(RollerBCY):
 
 
 class CastemRollerBCZ(RollerBCZ):
-    """Castem implementation of :class:`RollerBCZ`.\n"""
+    """Castem implementation of :class:`RollerBCZ`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += RollerBCZ.__doc__
 
@@ -173,7 +222,11 @@ class CastemRollerBCZ(RollerBCZ):
 
 
 class CastemRollerBCXY(RollerBCXY):
-    """Castem implementation of :class:`RollerBCXY`.\n"""
+    """Castem implementation of :class:`RollerBCXY`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += RollerBCXY.__doc__
 
@@ -185,7 +238,11 @@ class CastemRollerBCXY(RollerBCXY):
 
 
 class CastemRollerBCYZ(RollerBCYZ):
-    """Castem implementation of :class:`RollerBCYZ`.\n"""
+    """Castem implementation of :class:`RollerBCYZ`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += RollerBCYZ.__doc__
 
@@ -197,7 +254,11 @@ class CastemRollerBCYZ(RollerBCYZ):
 
 
 class CastemRollerBCXZ(RollerBCXZ):
-    """Castem implementation of :class:`RollerBCXZ`.\n"""
+    """Castem implementation of :class:`RollerBCXZ`.
+
+    The BLOQ operator is used.
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=BLOQ
+    \n"""
 
     __doc__ += RollerBCXZ.__doc__
 

@@ -1,7 +1,6 @@
 from compas_fea2.model import ElasticIsotropic
 from compas_fea2.model import ElasticOrthotropic
 from compas_fea2.model import ElasticPlastic
-from compas_fea2.model import Stiff
 from compas_fea2.model import UserMaterial
 
 
@@ -37,7 +36,9 @@ https://www-cast3m.cea.fr/index.php?page=notices&notice=mate#MECANIQUE%20ELASTIQ
 
 
 class CastemElasticIsotropic(ElasticIsotropic):
-    """Castem implementation of :class:`ElasticIsotropic`\n"""
+    """Castem implementation of :class:`ElasticIsotropic`
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=mate#MECANIQUE%20ELASTIQUE%20ISOTROPE11
+    \n"""
 
     __doc__ += ElasticIsotropic.__doc__
 
@@ -53,32 +54,15 @@ class CastemElasticIsotropic(ElasticIsotropic):
         return jobdata(self.mod, self.mate, self.complementary_line)
 
 
-class AbaqusStiff(Stiff):
-    """Abaqus implementation of :class:`Stiff`\n"""
-
-    __doc__ += Stiff.__doc__
-
-    def jobdata(self):
-        """Generates the string information for the input file.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        input file data line (str).
-        """
-        return ("*Material, name={}\n*Density\n{},\n*Elastic\n{}, {}\n**").format(self.name, self.density, self.E, self.v)
-
-
 # ==============================================================================
 # non-linear general
 # ==============================================================================
 
 
 class CastemElasticPlastic(ElasticPlastic):
-    """Castem implementation of :class:`ElasticPlastic`\n"""
+    """Castem implementation of :class:`ElasticPlastic`
+
+    https://www-cast3m.cea.fr/index.php?page=notices&notice=mate#MECANIQUE%20ELASTO-PLASTIQUE16\n"""
 
     __doc__ += ElasticPlastic.__doc__
     __doc__ += """
@@ -113,7 +97,7 @@ class CastemElasticPlastic(ElasticPlastic):
 
 
 class CastemUserMaterial(UserMaterial):
-    """Abaqus implementation of :class:`UserMaterial`\n"""
+    """Castem implementation of :class:`UserMaterial`\n"""
 
     __doc__ += UserMaterial.__doc__
     __doc__ += """ User Defined Material (UMAT).
@@ -125,7 +109,9 @@ class CastemUserMaterial(UserMaterial):
     mod : str
         Command line added to the MODE procedure that defines the model of the material in CASTEM.
     mate : 
-        specific values for 
+        specific values for material caracteristics for the MATE procedure
+    parameters :
+        specific other parameters, created outside of the MODE or MATE objects, needed for implementation 
     **kwars : var
         constants needed for the UMAT definition (depends on the subroutine)
     """
