@@ -114,12 +114,22 @@ class CastemStressFieldResults(StressFieldResults):
         super().__init__(step, **kwargs)
 
     def jobdata(self):
+        if self.model.interfaces is not None:
+            redu = "TCONTRAINTES = REDU TCONTRAINTES MODTOT;"
+            joint_stress_extraction = ""
+        #             joint_stress_extraction = f"""
+        # TCONTRAINTESJ = REDU TAB3.CONTRAINTES.(NCONTRAINTES-1) MODJTOT;
+        # OPTI SORT '{self.problem.path}\\{self.field_name}_joint';
+        # SORT  'AVS' TCONTRAINTESJ;
+        # """
         return f"""
 NCONTRAINTES = DIME TAB3.CONTRAINTES;
 TCONTRAINTES = TAB3.CONTRAINTES.(NCONTRAINTES-1);
+{redu if self.model.interfaces is not None else ""}
 TAB{self.field_name} = STRESSTAB TCONTRAINTES;
 OPTI SORT '{self.problem.path}\\{self.field_name}';
 SORT  'EXCE' TAB{self.field_name} 'SEPA' 'ESPA';
+{joint_stress_extraction if self.model.interfaces is not None else ""}
 """
 
     def extract_results(self):
