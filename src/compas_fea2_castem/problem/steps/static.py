@@ -62,12 +62,12 @@ CHARTOT = VIDE 'CHARGEME';
 *** - Displacements
 ***   -------------
 
-{self._generate_loads_displacement_section()}
+{self._generate_displacements_section()}
 ***
 *** - Loads
 ***   -------------
 ***
-{self._generate_fields_section()}
+{self._generate_loads_section()}
 
 
 *** - Predefined Fields
@@ -106,17 +106,17 @@ PASAPAS TAB3;
 """
 
     def _generate_displacements_section(self):
-        return "***"
+        return "\n".join(field.jobdata() for field in self.displacements)
 
-    def _generate_loads_displacement_section(self):
-        field_data = []
-        for field in self.load_fields:
-            if isinstance(field, compas_fea2.problem.DisplacementField):
-                field_data.append(field.jobdata())
-            else:
-                field_data.append(self.combination.jobdata())
+    # def _generate_loads_displacement_section(self):
+    #     field_data = []
+    #     for field in self.load_fields:
+    #         if isinstance(field, compas_fea2.problem.DisplacementField):
+    #             field_data.append(field.jobdata())
+    #         else:
+    #             field_data.append(self.combination.jobdata())
 
-        return "\n".join(field_data)
+        # return "\n".join(field_data)
 
     def _generate_loads_section(self):
         return self.combination.jobdata()
