@@ -24,7 +24,6 @@ from compas_fea2.model.elements import (
     LinkElement,
     BeamElement,
     ShellElement,
-    _Element3D,
     TetrahedronElement,
 )
 

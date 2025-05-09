@@ -1,4 +1,3 @@
-import compas_fea2
 from compas_fea2.problem.steps import StaticStep
 
 
@@ -116,7 +115,7 @@ PASAPAS TAB3;
     #         else:
     #             field_data.append(self.combination.jobdata())
 
-        # return "\n".join(field_data)
+    # return "\n".join(field_data)
 
     def _generate_loads_section(self):
         return self.combination.jobdata()

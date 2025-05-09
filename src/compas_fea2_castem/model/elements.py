@@ -2,7 +2,6 @@ from compas_fea2.model import BeamElement
 from compas_fea2.model import LinkElement
 from compas_fea2.model import ShellElement
 from compas_fea2.model import TetrahedronElement
-from compas_fea2.model import _Element3D
 
 
 def jobdata(element):
