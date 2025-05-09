@@ -177,48 +177,33 @@ class CastemShellElement(ShellElement):
 # ==============================================================================
 
 
-class _CastemElement3D(_Element3D):
-    """CASTEM implementation of a :class:`_Element3D`."""
-
-    __doc__ += _Element3D.__doc__
-
-    def __init__(self, nodes, section, implementation=None, **kwargs):
-        super(_CastemElement3D, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
-        if not self.implementation:
-            self._implementation = "massif"
-            if len(nodes) == 4:
-                self._type_element = "TET4"
-            elif len(nodes) == 5:
-                self._type_element = "PYR5"
-            elif len(nodes) == 6:
-                self._type_element = "PRI6"
-            elif len(nodes) == 8:
-                self._type_element = "CUB8"
-            elif len(nodes) == 10:
-                self._type_element = "TE10"
-            elif len(nodes) == 13:
-                self._type_element = "PY13"
-            elif len(nodes) == 15:
-                self._type_element = "PY15"
-            elif len(nodes) == 20:
-                self._type_element = "CU20"
-            else:
-                raise NotImplementedError("An element with {} nodes is not supported".format(len(nodes)))
-
-    def jobdata(self):
-        if any(x in self._type_element for x in ["TET4", "PYR5", "PRI6", "CUB8", "TE10", "PY13", "PY15", "CU20"]):
-            return jobdata(self)
-        else:
-            raise NotImplementedError
-
-
-class CastemTetrahedronElement(TetrahedronElement, _CastemElement3D):
+class CastemTetrahedronElement(TetrahedronElement):
     """Castem implementation of :class:`TetrahedronElement`"""
 
     __doc__ += TetrahedronElement.__doc__
 
     def __init__(self, nodes, section=None, implementation=None, **kwargs):
-        super(CastemTetrahedronElement, self).__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
+        super().__init__(nodes=nodes, section=section, implementation=implementation, **kwargs)
+        if not self.implementation:
+            self._implementation = "massif"
+        if len(nodes) == 4:
+            self._type_element = "TET4"
+        elif len(nodes) == 5:
+            self._type_element = "PYR5"
+        elif len(nodes) == 6:
+            self._type_element = "PRI6"
+        elif len(nodes) == 8:
+            self._type_element = "CUB8"
+        elif len(nodes) == 10:
+            self._type_element = "TE10"
+        elif len(nodes) == 13:
+            self._type_element = "PY13"
+        elif len(nodes) == 15:
+            self._type_element = "PY15"
+        elif len(nodes) == 20:
+            self._type_element = "CU20"
+        else:
+            raise NotImplementedError("An element with {} nodes is not supported".format(len(nodes)))
 
     def jobdata(self):
         if any(x in self._type_element for x in ["TET4", "TE10"]):

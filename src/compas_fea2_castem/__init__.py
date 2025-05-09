@@ -130,7 +130,6 @@ try:
     from .model.elements import (
         CastemBeamElement,
         CastemShellElement,
-        _CastemElement3D,
         CastemTetrahedronElement,
         CastemLinkElement,
     )
@@ -228,7 +227,6 @@ try:
         backend[LinkElement] = CastemLinkElement
         backend[BeamElement] = CastemBeamElement
         backend[ShellElement] = CastemShellElement
-        backend[_Element3D] = _CastemElement3D
         backend[TetrahedronElement] = CastemTetrahedronElement
 
         backend[AngleSection] = CastemAngleSection

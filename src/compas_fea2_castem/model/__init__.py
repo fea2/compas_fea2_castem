@@ -30,7 +30,6 @@ from .bcs import (
 from .elements import (
     CastemBeamElement,
     CastemShellElement,
-    _CastemElement3D,
     CastemTetrahedronElement,
 )
 
