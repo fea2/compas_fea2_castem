@@ -11,7 +11,7 @@ from compas_fea2.model import SolidSection
 
 def _beam_jobdata(self):
     """In Castem, the strong axis of inertia of the section is axis Y and the "weak" one is axis Z."""
-    return f"SECT {self.A} INRY {self.Iyy} INRZ {self.Ixx} TORS {self.J} SECY {self.Avy} SECZ {self.Avx}"
+    return f"SECT {self.A} INRY {self.Ixx} INRZ {self.Iyy} TORS {self.J} SECY {self.Avy} SECZ {self.Avx}"
 
 
 # ==============================================================================
