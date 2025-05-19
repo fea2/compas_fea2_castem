@@ -34,10 +34,16 @@ from .elements import (
 )
 
 # Castem Materials
-from .materials import CastemElasticIsotropic, CastemSteel
+from .materials import CastemElasticIsotropic, CastemElasticOrthotropic, CastemElasticPlastic, CastemUserMaterial, CastemSteel
 
 # Castem Section
 from .sections import (
+    CastemBoxSection,
+    CastemAngleSection,
+    CastemCircularSection,
+    CastemHexSection,
+    CastemISection,
+    CastemPipeSection,
     CastemRectangularSection,
     CastemShellSection,
     CastemSolidSection,
@@ -78,6 +84,15 @@ __all__ = [
     "CastemElasticIsotropic",
     "CastemSteel",
     "CastemRectangularSection",
+    "CastemElasticOrthotropic",
+    "CastemElasticPlastic",
+    "CastemUserMaterial",
+    "CastemBoxSection",
+    "CastemAngleSection",
+    "CastemCircularSection",
+    "CastemHexSection",
+    "CastemISection",
+    "CastemPipeSection",
     "CastemShellSection",
     "CastemSolidSection",
     "CastemRigidLinkConnector",

@@ -90,7 +90,7 @@ from compas_fea2.problem.steps import StaticStep, ModalAnalysis
 from compas_fea2.problem.loads import ConcentratedLoad, PressureLoad, GravityLoad
 
 # Fields
-from compas_fea2.problem.fields import NodeLoadField, GravityLoadField, DisplacementField
+from compas_fea2.problem.fields import NodeLoadField, DisplacementField
 
 # Displacements
 
@@ -194,7 +194,7 @@ try:
     from .problem.loads import CastemConcentratedLoad, CastemPressureLoad, CastemGravityLoad
 
     # Castem Fields
-    from .problem.fields import CastemNodeLoadField, CastemDisplacementField, CastemGravityLoadField
+    from .problem.fields import CastemNodeLoadField, CastemDisplacementField
 
     # Castem Combinations
     from .problem.combinations import (
@@ -274,7 +274,6 @@ try:
 
         backend[NodeLoadField] = CastemNodeLoadField
         backend[DisplacementField] = CastemDisplacementField
-        backend[GravityLoadField] = CastemGravityLoadField
 
         backend[LoadCombination] = CastemLoadCombination
 

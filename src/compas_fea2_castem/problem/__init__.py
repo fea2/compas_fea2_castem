@@ -1,11 +1,11 @@
 from .problem import CastemProblem
 
-from .steps import CastemStaticStep, CastemModalAnalysis
+from .steps import CastemStaticStep, CastemModalAnalysis, CastemBucklingAnalysis
 
 from .combinations import CastemLoadCombination
 from .loads import CastemConcentratedLoad, CastemGravityLoad, CastemPressureLoad
 
-from .fields import CastemDisplacementField, CastemGravityLoadField, CastemNodeLoadField
+from .fields import CastemDisplacementField, CastemNodeLoadField
 
 __all__ = [
     "CastemProblem",
@@ -13,9 +13,9 @@ __all__ = [
     "CastemModalAnalysis",
     "CastemLoadCombination",
     "CastemDisplacementField",
-    "CastemGravityLoadField",
     "CastemNodeLoadField",
     "CastemConcentratedLoad",
     "CastemGravityLoad",
     "CastemPressureLoad",
+    "CastemBucklingAnalysis",
 ]

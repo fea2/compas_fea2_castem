@@ -1,5 +1,6 @@
 from compas_fea2.problem import DisplacementField
-from compas_fea2.problem import GravityLoadField
+
+# from compas_fea2.problem import GravityLoadField
 from compas_fea2.problem import NodeLoadField
 
 dofs = ["x", "y", "z", "xx", "yy", "zz"]
@@ -48,17 +49,17 @@ CHARTOT = CHARTOT ET CHDEP{dof}{node.key};
         return "\n".join(["\n".join(line for line in data if line is not None)])
 
 
-class CastemGravityLoadField(GravityLoadField):
-    def __init__(self, g=9.81, parts=None, load_case=None, **kwargs):
-        super().__init__(g, parts, load_case, **kwargs)
+# class CastemGravityLoadField(GravityLoadField):
+#     def __init__(self, g=9.81, parts=None, load_case=None, **kwargs):
+#         super().__init__(g, parts, load_case, **kwargs)
 
-    def castem_gravity_input(self, part):
-        return f"""MAS{part.key} = MOD{part.key} MAT{self.key};
-ACC{part.key} = MANU CHPO MAIL{part.key} 1 UZ {self.g} NATU DIFF;
-GP{part.key} = MAS{part.key} * ACC{part.key};
-CHSW{part.key} = CHAR 'MECA' GP{part.key} EVOLC;
-CHARTOT = CHARTOT ET CHSW{part.key};
-"""
+#     def castem_gravity_input(self, part):
+#         return f"""MAS{part.key} = MOD{part.key} MAT{self.key};
+# ACC{part.key} = MANU CHPO MAIL{part.key} 1 UZ {self.g} NATU DIFF;
+# GP{part.key} = MAS{part.key} * ACC{part.key};
+# CHSW{part.key} = CHAR 'MECA' GP{part.key} EVOLC;
+# CHARTOT = CHARTOT ET CHSW{part.key};
+# """
 
-    def jobdata(self):
-        return "\n".join([self.castem_gravity_input(part) for part in self.parts])
+#     def jobdata(self):
+#         return "\n".join([self.castem_gravity_input(part) for part in self.parts])

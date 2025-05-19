@@ -1,4 +1,9 @@
-from .material import CastemElasticIsotropic
+from .material import (
+    CastemElasticIsotropic,
+    CastemElasticOrthotropic,
+    CastemElasticPlastic,
+    CastemUserMaterial,
+)
 from .steel import CastemSteel
 
-__all__ = ["CastemElasticIsotropic", "CastemSteel"]
+__all__ = ["CastemElasticIsotropic", "CastemElasticOrthotropic", "CastemElasticPlastic", "CastemUserMaterial", "CastemSteel"]
