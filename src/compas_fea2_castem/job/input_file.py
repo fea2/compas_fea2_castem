@@ -58,10 +58,10 @@ DEBP SFTAB CHCONT*'MCHAML' TABEL*'TABLE';
     'FX2' 'FY2' 'FZ2' 'MX2' 'MY2' 'MZ2') 'LISTENTI'*1 'LISTREEL'*12;
 
 *the values are extracted element by element
-    NELE = DIME TABEL.ELE;
+    NELE = DIME TABELE.(0).ELE;
     REPETER BOUC1 (NELE);
-        ELEi = TABEL.ELE.(&BOUC1-1);
-        KEYi = TABEL.KEY.(&BOUC1-1);
+        ELEi = TABELE.(0).ELE.(&BOUC1-1);
+        KEYi = TABELE.(0).KEY.(&BOUC1-1);
         TABO.KEY = TABO.KEY ET (LECT KEYi);
 
 * extraction of the values in the CHAM
