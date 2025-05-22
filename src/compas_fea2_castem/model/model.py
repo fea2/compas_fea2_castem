@@ -110,6 +110,6 @@ CONTOT = VIDE 'RIGIDITE'/'RIGIDITE';
 ***""".format(
             "\n".join([part.jobdata() for part in sorted(self.parts, key=lambda x: x.key)]),
             "\n".join([bc.jobdata(nodes) for bc, nodes in self.bcs.items()]),
-            "\n".join([interfaces.jobdata() for interfaces in sorted(self.interfaces, key=lambda x: x.key)]),
+            "\n".join([interfaces.jobdata() for interfaces in list(self.interfaces)]),
             "\n".join([connector.jobdata() for connector in sorted(self.connectors, key=lambda x: x.key)]),
         )
