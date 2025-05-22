@@ -42,7 +42,7 @@ class CastemElasticIsotropic(ElasticIsotropic):
 
     __doc__ += ElasticIsotropic.__doc__
 
-    def __init__(self, *, E, v, density, unilateral=None, name=None, **kwargs):
+    def __init__(self, E, v, density, unilateral=None, name=None, **kwargs):
         super(CastemElasticIsotropic, self).__init__(E=E, v=v, density=density, name=name, **kwargs)
         self.mod = "MECANIQUE ELASTIQUE ISOTROPE"
         self.mate = f"'YOUN' {self.E} 'NU' {self.v}"

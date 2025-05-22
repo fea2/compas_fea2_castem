@@ -34,7 +34,13 @@ from .elements import (
 )
 
 # Castem Materials
-from .materials import CastemElasticIsotropic, CastemElasticOrthotropic, CastemElasticPlastic, CastemUserMaterial, CastemSteel
+from .materials import (
+    CastemElasticIsotropic, 
+    CastemElasticOrthotropic, 
+    CastemElasticPlastic, 
+    CastemUserMaterial, 
+    CastemSteel
+)
 
 # Castem Section
 from .sections import (
