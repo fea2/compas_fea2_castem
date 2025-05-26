@@ -1,0 +1,834 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="../_static/compas.ico" type="image/x-icon">
+    <title>model &#8212; compas_fea2_castem</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/compas.css?v=617b33e2" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script src="../_static/documentation_options.js?v=bb99e320"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/compas_fea2_castem.model';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/fea2/compas_fea2_castem/gh-pages/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CastemModel" href="generated/compas_fea2_castem.model.CastemModel.html" />
+    <link rel="prev" title="API Reference" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/compas_icon_white.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/compas_icon_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">compas_fea2_castem</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <!-- <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+  </ul> -->
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      latest  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fea2/compas_fea2_castem" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="http://forum.compas-framework.org/" title="Discourse" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-discourse"></i></span>
+            <label class="sr-only">Discourse</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/compas_fea2_castem/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-python"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <!-- <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+  </ul> -->
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      latest  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fea2/compas_fea2_castem" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="http://forum.compas-framework.org/" title="Discourse" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-discourse"></i></span>
+            <label class="sr-only">Discourse</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/compas_fea2_castem/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-python"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../userguide/index.html">User Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/gettingstarted.intro.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/gettingstarted.requirements.html">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/gettingstarted.installation.html">Plugin installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/gettingstarted.nextsteps.html">Next steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/license.html">License</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">model</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemModel.html">CastemModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemPart.html">CastemPart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRigidPart.html">CastemRigidPart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemNode.html">CastemNode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemBeamElement.html">CastemBeamElement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemShellElement.html">CastemShellElement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemTetrahedronElement.html">CastemTetrahedronElement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemElasticIsotropic.html">CastemElasticIsotropic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemElasticOrthotropic.html">CastemElasticOrthotropic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemElasticPlastic.html">CastemElasticPlastic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemUserMaterial.html">CastemUserMaterial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemSteel.html">CastemSteel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemAngleSection.html">CastemAngleSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemBoxSection.html">CastemBoxSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemCircularSection.html">CastemCircularSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemHexSection.html">CastemHexSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemISection.html">CastemISection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemPipeSection.html">CastemPipeSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRectangularSection.html">CastemRectangularSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemShellSection.html">CastemShellSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemSolidSection.html">CastemSolidSection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemClampBCXX.html">CastemClampBCXX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemClampBCYY.html">CastemClampBCYY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemClampBCZZ.html">CastemClampBCZZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBC.html">CastemFixedBC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBCX.html">CastemFixedBCX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBCY.html">CastemFixedBCY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBCZ.html">CastemFixedBCZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemGeneralBC.html">CastemGeneralBC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemPinnedBC.html">CastemPinnedBC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCX.html">CastemRollerBCX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCXY.html">CastemRollerBCXY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCXZ.html">CastemRollerBCXZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCY.html">CastemRollerBCY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCYZ.html">CastemRollerBCYZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCZ.html">CastemRollerBCZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRigidLinkConnector.html">CastemRigidLinkConnector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemInterface.html">CastemInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.model.CastemLinearContactFrictionPenalty.html">CastemLinearContactFrictionPenalty</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compas_fea2_castem.problem.html">problem</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemProblem.html">CastemProblem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemModalAnalysis.html">CastemModalAnalysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemStaticStep.html">CastemStaticStep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemBucklingAnalysis.html">CastemBucklingAnalysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemNodeLoadField.html">CastemNodeLoadField</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemDisplacementField.html">CastemDisplacementField</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.problem.CastemLoadCombination.html">CastemLoadCombination</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compas_fea2_castem.job.html">job</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.job.CastemInputFile.html">CastemInputFile</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compas_fea2_castem.results.html">results</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.results.CastemDisplacementFieldResults.html">CastemDisplacementFieldResults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.results.CastemReactionFieldResults.html">CastemReactionFieldResults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.results.CastemSectionForcesFieldResults.html">CastemSectionForcesFieldResults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_fea2_castem.results.CastemStressFieldResults.html">CastemStressFieldResults</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/gettingstarted_dev.html">Getting started - development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/castem_basics.html">Cast3M basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/input_file.html">Input file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/specificities.html">Input file specificities</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="sidebar-primary-item"><div class="sidebar-primary-item">
+    <a href="https://compas.dev" target="_blank">
+        COMPAS.dev <i class="fa fa-external-link" aria-hidden="true"></i>
+    </a>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">model</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="model">
+<h1>model</h1>
+<section id="id1">
+<h2>Model</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemModel.html" title="compas_fea2_castem.model.CastemModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemModel</span></code></a>(**kwargs)</p></td>
+<td><p>Cast3m implementation of the :class::<cite>Model</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="parts">
+<h2>Parts</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemPart.html" title="compas_fea2_castem.model.CastemPart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemPart</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.DeformablePart</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRigidPart.html" title="compas_fea2_castem.model.CastemRigidPart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRigidPart</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">RigidPart</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nodes">
+<h2>Nodes</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemNode.html" title="compas_fea2_castem.model.CastemNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemNode</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="elements">
+<h2>Elements</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemBeamElement.html" title="compas_fea2_castem.model.CastemBeamElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemBeamElement</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.BeamElement</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemShellElement.html" title="compas_fea2_castem.model.CastemShellElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemShellElement</span></code></a>(**kwargs)</p></td>
+<td><p>CASTEM implementation of a <code class="xref py py-class docutils literal notranslate"><span class="pre">ShellElemnt</span></code>.A 2D element that resists axial, shear, bending and torsion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemTetrahedronElement.html" title="compas_fea2_castem.model.CastemTetrahedronElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemTetrahedronElement</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of :class:<a href="#id2"><span class="problematic" id="id3">`</span></a>TetrahedronElement`A Solid element with 4 or 10 nodes.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="materials">
+<h2>Materials</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemElasticIsotropic.html" title="compas_fea2_castem.model.CastemElasticIsotropic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemElasticIsotropic</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">ElasticIsotropic</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemElasticOrthotropic.html" title="compas_fea2_castem.model.CastemElasticOrthotropic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemElasticOrthotropic</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">ElasticOrthotropic</span></code> Elastic, orthotropic and homogeneous material</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemElasticPlastic.html" title="compas_fea2_castem.model.CastemElasticPlastic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemElasticPlastic</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">ElasticPlastic</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemUserMaterial.html" title="compas_fea2_castem.model.CastemUserMaterial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemUserMaterial</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">UserMaterial</span></code> User Defined Material. To implement this type of material, a     separate subroutine is required.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemSteel.html" title="compas_fea2_castem.model.CastemSteel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemSteel</span></code></a>(**kwargs)</p></td>
+<td><p>Bi-linear steel with given yield stress.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sections">
+<h2>Sections</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemAngleSection.html" title="compas_fea2_castem.model.CastemAngleSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemAngleSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">BoxSection</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemBoxSection.html" title="compas_fea2_castem.model.CastemBoxSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemBoxSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">BoxSection</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemCircularSection.html" title="compas_fea2_castem.model.CastemCircularSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemCircularSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircularSection</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemHexSection.html" title="compas_fea2_castem.model.CastemHexSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemHexSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">HexSection</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemISection.html" title="compas_fea2_castem.model.CastemISection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemISection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">ISection</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemPipeSection.html" title="compas_fea2_castem.model.CastemPipeSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemPipeSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">PipeSection</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRectangularSection.html" title="compas_fea2_castem.model.CastemRectangularSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRectangularSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">RectangularSection</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemShellSection.html" title="compas_fea2_castem.model.CastemShellSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemShellSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">ShellSection</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemSolidSection.html" title="compas_fea2_castem.model.CastemSolidSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemSolidSection</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">SolidSection</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="boundary-conditions">
+<h2>Boundary Conditions</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemClampBCXX.html" title="compas_fea2_castem.model.CastemClampBCXX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemClampBCXX</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.ClampBCXX</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemClampBCYY.html" title="compas_fea2_castem.model.CastemClampBCYY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemClampBCYY</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.ClampBCYY</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemClampBCZZ.html" title="compas_fea2_castem.model.CastemClampBCZZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemClampBCZZ</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">ClampBCZZ</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBC.html" title="compas_fea2_castem.model.CastemFixedBC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemFixedBC</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.FixedBC</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBCX.html" title="compas_fea2_castem.model.CastemFixedBCX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemFixedBCX</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.FixedBCX</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBCY.html" title="compas_fea2_castem.model.CastemFixedBCY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemFixedBCY</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.FixedBCY</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemFixedBCZ.html" title="compas_fea2_castem.model.CastemFixedBCZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemFixedBCZ</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.FixedBCZ</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemGeneralBC.html" title="compas_fea2_castem.model.CastemGeneralBC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemGeneralBC</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.GeneralBC</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemPinnedBC.html" title="compas_fea2_castem.model.CastemPinnedBC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemPinnedBC</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.PinnedBC</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCX.html" title="compas_fea2_castem.model.CastemRollerBCX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRollerBCX</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">RollerBCX</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCXY.html" title="compas_fea2_castem.model.CastemRollerBCXY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRollerBCXY</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">RollerBCXY</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCXZ.html" title="compas_fea2_castem.model.CastemRollerBCXZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRollerBCXZ</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">RollerBCXZ</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCY.html" title="compas_fea2_castem.model.CastemRollerBCY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRollerBCY</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">RollerBCY</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCYZ.html" title="compas_fea2_castem.model.CastemRollerBCYZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRollerBCYZ</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">RollerBCYZ</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRollerBCZ.html" title="compas_fea2_castem.model.CastemRollerBCZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRollerBCZ</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">RollerBCZ</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="connectors">
+<h2>Connectors</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemRigidLinkConnector.html" title="compas_fea2_castem.model.CastemRigidLinkConnector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemRigidLinkConnector</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">compas_fea2.model.connectors.RigidLinkConnector</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="interfaces">
+<h2>Interfaces</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemInterface.html" title="compas_fea2_castem.model.CastemInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemInterface</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of <code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="interactions">
+<h2>Interactions</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_fea2_castem.model.CastemLinearContactFrictionPenalty.html" title="compas_fea2_castem.model.CastemLinearContactFrictionPenalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CastemLinearContactFrictionPenalty</span></code></a>(**kwargs)</p></td>
+<td><p>Castem implementation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearContactFrictionPenalty</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parts">Parts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nodes">Nodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elements">Elements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#materials">Materials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sections">Sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boundary-conditions">Boundary Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connectors">Connectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaces">Interfaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactions">Interactions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright Ines Champagne.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

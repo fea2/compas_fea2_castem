@@ -11,19 +11,33 @@ Castem implementation for fea2
      :class: figure-img img-fluid
 
 
-Table of Contents
-=================
+User Guide
+==========
 
 .. toctree::
-   :maxdepth: 3
-   :titlesonly:
+    :maxdepth: 2
+    :titlesonly:
 
-   Introduction <self>
-   installation
-   tutorial
-   examples
-   api
-   license
+    userguide/index
+
+
+API Reference
+=============
+
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+
+    api/index
+
+Development
+===========
+
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+
+    development/index
 
 
 Indices and tables
@@ -31,3 +45,5 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`modindex`
+* :ref:`search`
+
