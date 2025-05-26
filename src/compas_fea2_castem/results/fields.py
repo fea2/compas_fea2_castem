@@ -30,6 +30,8 @@ def _extract_results(obj):
         FieldOutput object containing the nodes and/or element outputs to extract.
     """
 
+    from compas_fea2.results.database import ResultsDatabase
+
     results = []
     with open(os.path.join(obj.problem.path, f"{obj.field_name}.csv"), "r") as f:
         # remove the first line of names of columns
@@ -51,7 +53,7 @@ def _extract_results(obj):
 
             results.append([member.key] + [obj.step.name, member.part.name] + values)
 
-    obj.create_sql_table(results)
+    ResultsDatabase.sqlite(obj.problem).create_table_for_output_class(obj, results)
 
 
 class CastemDisplacementFieldResults(DisplacementFieldResults):
