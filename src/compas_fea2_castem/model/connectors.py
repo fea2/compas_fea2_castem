@@ -25,6 +25,6 @@ class CastemRigidLinkConnector(RigidLinkConnector):
             fea2_dofs = dof_map.get(self.dofs)
         else:
             fea2_dofs = self.dofs
-        cNode = self.nodes[0].key
-        rNode = self.nodes[1].key
+        cNode = list(self.nodes)[0].key
+        rNode = list(self.nodes)[1].key
         return "\n".join(f"CONTOT = CONTOT ET (RELA 1 {castem_dofs[dof]} N{rNode} - 1 {castem_dofs[dof]} N{cNode});" for dof in fea2_dofs)
