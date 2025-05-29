@@ -38,8 +38,8 @@ def _extract_results(obj):
         lines = f.readlines()[1:]
         for line in lines:
             columns = line.split()
-            input_key = int(columns[0])  # Convert the first column to int
-            member = getattr(obj.model, obj.results_func)(input_key)[0]
+            key = int(columns[0])  # Convert the first column to int
+            member = getattr(obj.model, obj.results_func)(key)[0]
             values = list(map(lambda x: round(float(x), 6), columns[1:]))
             if not values:
                 continue

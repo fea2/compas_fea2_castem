@@ -36,7 +36,7 @@ TABELE.({obj.key}).ELE = TABLE;
 
 
 class CastemPart(Part):
-    """Castem implementation of :class:`compas_fea2.model.DeformablePart`.
+    """Castem implementation of :class:`compas_fea2.model.Part`.
 
     Note
     ----
