@@ -4,6 +4,7 @@ from compas_fea2.results import DisplacementFieldResults
 from compas_fea2.results import ReactionFieldResults
 from compas_fea2.results import SectionForcesFieldResults
 from compas_fea2.results import StressFieldResults
+from compas_fea2.results.database import SQLiteResultsDatabase
 
 
 def _dgibi_export_node_results(castem_tab3_input, list_compo, field_name, path):
@@ -53,7 +54,7 @@ def _extract_results(obj):
 
             results.append([member.key] + [obj.step.name, member.part.name] + values)
 
-    ResultsDatabase.sqlite(obj.problem).create_table_for_output_class(obj, results)
+    obj.rdb.add_results_to_output_class_table(output_cls=obj, results=results)
 
 
 class CastemDisplacementFieldResults(DisplacementFieldResults):
